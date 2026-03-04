@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Savat - UyUchun</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--primary:#ff6600;--primary-dark:#cc5200;--bg:#0a0a0a;--bg2:#111111;--bg3:#1a1a1a;--bg4:#222222;--text:#f0f0f0;--text2:#aaaaaa;--border:#2a2a2a;--card:#161616;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px}
+header{background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.hdr{max-width:1200px;margin:0 auto;padding:0 20px;height:65px;display:flex;align-items:center;gap:14px}
+.logo{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,#ff6600,#ff9900);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer}
+.back-btn{color:var(--text2);font-size:0.9rem;cursor:pointer;padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;gap:8px;transition:all .2s}
+.back-btn:hover{color:var(--primary);border-color:var(--primary)}
+.cur-sel{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:0.85rem;outline:none;font-family:'Inter',sans-serif;margin-left:auto;cursor:pointer}
+.main{max-width:1200px;margin:0 auto;padding:30px 20px 60px;display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:start}
+h1{font-size:1.8rem;font-weight:800;margin-bottom:24px;grid-column:1/-1}
+.cart-items{display:flex;flex-direction:column;gap:14px}
+.cart-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:flex;gap:16px;align-items:center;transition:border-color .2s}
+.cart-item:hover{border-color:var(--primary)}
+.item-img{width:90px;height:90px;background:var(--bg3);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;cursor:pointer}
+.item-img img{max-width:85%;max-height:85%;object-fit:contain}
+.item-body{flex:1}
+.item-brand{font-size:0.72rem;color:var(--primary);font-weight:700;text-transform:uppercase;margin-bottom:3px}
+.item-name{font-size:1rem;font-weight:700;margin-bottom:4px;cursor:pointer}
+.item-name:hover{color:var(--primary)}
+.item-price{font-size:1.1rem;font-weight:800;color:var(--primary)}
+.item-actions{display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap}
+.qty-ctrl{display:flex;align-items:center;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.qty-ctrl button{background:var(--bg3);color:var(--text);border:none;width:34px;height:34px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.qty-ctrl button:hover{background:var(--primary);color:#fff}
+.qty-ctrl span{width:38px;text-align:center;font-weight:700;font-size:0.95rem;background:var(--bg4);height:34px;display:flex;align-items:center;justify-content:center}
+.remove-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:7px 12px;border-radius:8px;cursor:pointer;font-size:0.82rem;display:flex;align-items:center;gap:6px;transition:all .2s}
+.remove-btn:hover{border-color:#ff4444;color:#ff4444}
+.item-subtotal{font-size:0.85rem;color:var(--text2);margin-top:4px}
+.summary{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;position:sticky;top:80px}
+.summary h2{font-size:1.2rem;font-weight:800;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.sum-row{display:flex;justify-content:space-between;margin-bottom:12px;font-size:0.9rem}
+.sum-row.label span:first-child{color:var(--text2)}
+.sum-row.total{font-size:1.2rem;font-weight:800;color:var(--primary);margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.checkout-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:16px;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:18px;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .3s}
+.checkout-btn:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:0 8px 25px rgba(255,102,0,0.3)}
+.checkout-btn:disabled{background:var(--bg4);color:var(--text2);cursor:not-allowed;transform:none;box-shadow:none}
+.continue-btn{width:100%;background:transparent;color:var(--text2);border:1px solid var(--border);padding:12px;border-radius:12px;font-size:0.9rem;font-weight:600;cursor:pointer;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s}
+.continue-btn:hover{border-color:var(--primary);color:var(--primary)}
+.clear-btn{width:100%;background:transparent;color:#ff4444;border:1px solid #ff444433;padding:10px;border-radius:12px;font-size:0.85rem;font-weight:600;cursor:pointer;margin-top:8px;transition:all .2s}
+.clear-btn:hover{background:#ff44440f}
+.empty-cart{text-align:center;padding:80px 20px;grid-column:1/-1;color:var(--text2)}
+.empty-cart i{font-size:4rem;margin-bottom:20px;opacity:.25;display:block}
+.empty-cart h2{font-size:1.5rem;font-weight:800;margin-bottom:8px;color:var(--text)}
+.empty-cart p{margin-bottom:24px}
+.suggest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;grid-column:1/-1}
+.sug-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;gap:12px;align-items:center;cursor:pointer;transition:all .2s}
+.sug-card:hover{border-color:var(--primary);transform:translateY(-2px)}
+.sug-card img{width:60px;height:60px;object-fit:contain;background:var(--bg3);border-radius:8px;padding:4px}
+.sug-info .sug-name{font-size:0.85rem;font-weight:700;margin-bottom:3px}
+.sug-info .sug-price{font-size:0.9rem;font-weight:800;color:var(--primary)}
+.promo-row{display:flex;gap:8px;margin-top:14px}
+.promo-input{flex:1;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:8px;font-size:0.85rem;outline:none;font-family:'Inter',sans-serif}
+.promo-input:focus{border-color:var(--primary)}
+.promo-btn{background:var(--bg3);color:var(--text2);border:1px solid var(--border);padding:9px 14px;border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:600;transition:all .2s}
+.promo-btn:hover{border-color:var(--primary);color:var(--primary)}
+.promo-ok{color:#00c853;font-size:0.8rem;margin-top:4px;display:none}
+.delivery-info{background:var(--bg3);border-radius:8px;padding:12px;margin-top:12px;display:flex;gap:10px;align-items:flex-start}
+.delivery-info i{color:var(--primary);margin-top:2px}
+.delivery-info p{font-size:0.8rem;color:var(--text2);line-height:1.5}
+@media(max-width:768px){.main{grid-template-columns:1fr}.summary{position:static}h1{font-size:1.4rem}.cart-item{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr">
+    <div class="logo" onclick="location.href='index.html'">⚡ UyUchun</div>
+    <div class="back-btn" onclick="location.href='index.html'"><i class="fas fa-arrow-left"></i> Xarid davom ettirish</div>
+    <select class="cur-sel" id="curSel" onchange="changeCur(this.value)">
+      <option value="USD">$ USD</option><option value="EUR">€ EUR</option>
+      <option value="RUB">₽ RUB</option><option value="KZT">₸ KZT</option>
+      <option value="UZS">soʻm UZS</option>
+    </select>
+  </div>
+</header>
+<div class="main" id="main">
+  <h1><i class="fas fa-shopping-cart" style="color:var(--primary);margin-right:12px"></i>Savat</h1>
+</div>
+<script>
+const PRODUCTS=[{id:1,name:"iPhone 15 Pro Max",brand:"Apple",price:1299,image:"https://placehold.co/200x200/111/ff6600?text=iPhone+15"},{id:2,name:"Samsung Galaxy S24 Ultra",brand:"Samsung",price:1199,image:"https://placehold.co/200x200/111/ff6600?text=Galaxy+S24"},{id:3,name:"Xiaomi 14 Pro",brand:"Xiaomi",price:899,image:"https://placehold.co/200x200/111/ff6600?text=Xiaomi+14"},{id:4,name:"OnePlus 12",brand:"OnePlus",price:799,image:"https://placehold.co/200x200/111/ff6600?text=OnePlus+12"},{id:5,name:"Google Pixel 8 Pro",brand:"Google",price:999,image:"https://placehold.co/200x200/111/ff6600?text=Pixel+8"},{id:6,name:"Samsung Galaxy A54",brand:"Samsung",price:449,image:"https://placehold.co/200x200/111/ff6600?text=A54"},{id:7,name:"Xiaomi Redmi Note 13 Pro",brand:"Xiaomi",price:349,image:"https://placehold.co/200x200/111/ff6600?text=Note+13"},{id:8,name:"Apple Watch Series 9",brand:"Apple",price:399,image:"https://placehold.co/200x200/111/ff6600?text=Watch+9"},{id:9,name:"Samsung Galaxy Tab S9 Ultra",brand:"Samsung",price:1099,image:"https://placehold.co/200x200/111/ff6600?text=Tab+S9"},{id:10,name:"iPad Pro 12.9 M2",brand:"Apple",price:1099,image:"https://placehold.co/200x200/111/ff6600?text=iPad+Pro"},{id:11,name:"Sony WH-1000XM5",brand:"Sony",price:349,image:"https://placehold.co/200x200/111/ff6600?text=WH-XM5"},{id:12,name:"Apple AirPods Pro 2",brand:"Apple",price:249,image:"https://placehold.co/200x200/111/ff6600?text=AirPods"},{id:13,name:"Samsung Galaxy Buds2 Pro",brand:"Samsung",price:199,image:"https://placehold.co/200x200/111/ff6600?text=Buds2"},{id:14,name:"Bose QuietComfort 45",brand:"Bose",price:279,image:"https://placehold.co/200x200/111/ff6600?text=QC45"},{id:15,name:"Xiaomi Smart Band 8",brand:"Xiaomi",price:49,image:"https://placehold.co/200x200/111/ff6600?text=Band+8"},{id:16,name:"Garmin Fenix 7 Pro",brand:"Garmin",price:699,image:"https://placehold.co/200x200/111/ff6600?text=Fenix+7"},{id:17,name:"Anker 65W GaN Zaryadlovchi",brand:"Anker",price:39,image:"https://placehold.co/200x200/111/ff6600?text=Anker"},{id:18,name:"MacBook Pro 14 M3",brand:"Apple",price:1999,image:"https://placehold.co/200x200/111/ff6600?text=MacBook"},{id:19,name:"Dell XPS 15",brand:"Dell",price:1799,image:"https://placehold.co/200x200/111/ff6600?text=XPS+15"},{id:20,name:"ASUS ROG Zephyrus G14",brand:"ASUS",price:1499,image:"https://placehold.co/200x200/111/ff6600?text=ROG+G14"},{id:21,name:"Lenovo ThinkPad X1 Carbon",brand:"Lenovo",price:1599,image:"https://placehold.co/200x200/111/ff6600?text=X1+Carbon"},{id:22,name:"HP Spectre x360",brand:"HP",price:1399,image:"https://placehold.co/200x200/111/ff6600?text=Spectre"},{id:23,name:"ASUS VivoBook 15 OLED",brand:"ASUS",price:799,image:"https://placehold.co/200x200/111/ff6600?text=VivoBook"},{id:24,name:"Lenovo IdeaPad 3",brand:"Lenovo",price:599,image:"https://placehold.co/200x200/111/ff6600?text=IdeaPad"},{id:25,name:"MSI Titan GT77",brand:"MSI",price:2999,image:"https://placehold.co/200x200/111/ff6600?text=Titan"},{id:26,name:"Razer DeathAdder V3",brand:"Razer",price:79,image:"https://placehold.co/200x200/111/ff6600?text=DeathAdder"},{id:27,name:"Logitech MX Master 3S",brand:"Logitech",price:99,image:"https://placehold.co/200x200/111/ff6600?text=MX+Master"},{id:28,name:"Samsung Odyssey G7 27",brand:"Samsung",price:499,image:"https://placehold.co/200x200/111/ff6600?text=Odyssey+G7"},{id:29,name:"LG UltraFine 32 4K",brand:"LG",price:699,image:"https://placehold.co/200x200/111/ff6600?text=UltraFine"},{id:30,name:"WD My Passport 4TB",brand:"WD",price:99,image:"https://placehold.co/200x200/111/ff6600?text=WD+4TB"},{id:31,name:"Samsung 980 Pro 2TB",brand:"Samsung",price:149,image:"https://placehold.co/200x200/111/ff6600?text=980+Pro"},{id:32,name:"Samsung 65 QLED Q80C",brand:"Samsung",price:1299,image:"https://placehold.co/200x200/111/ff6600?text=QLED+65"},{id:33,name:"LG OLED C3 55",brand:"LG",price:1599,image:"https://placehold.co/200x200/111/ff6600?text=OLED+C3"},{id:34,name:"Sony Bravia A80L 65",brand:"Sony",price:1799,image:"https://placehold.co/200x200/111/ff6600?text=Bravia"},{id:35,name:"TCL 55 Mini-LED QLED",brand:"TCL",price:699,image:"https://placehold.co/200x200/111/ff6600?text=TCL+55"},{id:36,name:"Hisense 75 ULED U8K",brand:"Hisense",price:899,image:"https://placehold.co/200x200/111/ff6600?text=Hisense+75"},{id:37,name:"Samsung HW-Q990C Soundbar",brand:"Samsung",price:799,image:"https://placehold.co/200x200/111/ff6600?text=Q990C"},{id:38,name:"LG WashTower",brand:"LG",price:1999,image:"https://placehold.co/200x200/111/ff6600?text=WashTower"},{id:39,name:"Samsung Family Hub Muzlatgich",brand:"Samsung",price:1499,image:"https://placehold.co/200x200/111/ff6600?text=FamilyHub"},{id:40,name:"Bosch Kir Yuvish Mashinasi",brand:"Bosch",price:699,image:"https://placehold.co/200x200/111/ff6600?text=Bosch"},{id:41,name:"Dyson V15 Detect",brand:"Dyson",price:699,image:"https://placehold.co/200x200/111/ff6600?text=V15"},{id:42,name:"iRobot Roomba j7+",brand:"iRobot",price:599,image:"https://placehold.co/200x200/111/ff6600?text=Roomba"},{id:43,name:"Xiaomi Robot Changyutgich S10+",brand:"Xiaomi",price:299,image:"https://placehold.co/200x200/111/ff6600?text=S10+"},{id:44,name:"Miele Idish Yuvish Mashinasi",brand:"Miele",price:1299,image:"https://placehold.co/200x200/111/ff6600?text=Miele"},{id:45,name:"Haier 500L Muzlatgich",brand:"Haier",price:799,image:"https://placehold.co/200x200/111/ff6600?text=Haier"},{id:46,name:"Philips Hue Boshlangich",brand:"Philips",price:149,image:"https://placehold.co/200x200/111/ff6600?text=Philips+Hue"},{id:47,name:"Nespresso Vertuo Next",brand:"Nespresso",price:199,image:"https://placehold.co/200x200/111/ff6600?text=Nespresso"},{id:48,name:"KitchenAid Artisan Mikseri",brand:"KitchenAid",price:499,image:"https://placehold.co/200x200/111/ff6600?text=KitchenAid"},{id:49,name:"Ninja Foodi 9-in-1",brand:"Ninja",price:299,image:"https://placehold.co/200x200/111/ff6600?text=Ninja+Foodi"},{id:50,name:"Philips Airfryer XXL",brand:"Philips",price:249,image:"https://placehold.co/200x200/111/ff6600?text=AirFryer"},{id:51,name:"Instant Pot Duo 7-in-1",brand:"Instant Pot",price:99,image:"https://placehold.co/200x200/111/ff6600?text=Instant+Pot"},{id:52,name:"Bosch Serie 8 Pech",brand:"Bosch",price:899,image:"https://placehold.co/200x200/111/ff6600?text=Bosch+Oven"},{id:53,name:"Electrolux Induksion Plitasi",brand:"Electrolux",price:599,image:"https://placehold.co/200x200/111/ff6600?text=Induction"},{id:54,name:"Vitamix 5200 Blenderi",brand:"Vitamix",price:449,image:"https://placehold.co/200x200/111/ff6600?text=Vitamix"},{id:55,name:"Bosch Tassimo Kofe Mashinasi",brand:"Bosch",price:149,image:"https://placehold.co/200x200/111/ff6600?text=Tassimo"},{id:56,name:"Dyson Purifier Hot+Cool",brand:"Dyson",price:799,image:"https://placehold.co/200x200/111/ff6600?text=HP07"},{id:57,name:"Daikin Split Konditsioner",brand:"Daikin",price:999,image:"https://placehold.co/200x200/111/ff6600?text=Daikin"},{id:58,name:"Midea Konditsioner",brand:"Midea",price:399,image:"https://placehold.co/200x200/111/ff6600?text=Midea"},{id:59,name:"Honeywell Ko'chma Konditsioner",brand:"Honeywell",price:499,image:"https://placehold.co/200x200/111/ff6600?text=Honeywell"},{id:60,name:"Honeywell HPA300",brand:"Honeywell",price:249,image:"https://placehold.co/200x200/111/ff6600?text=HPA300"},{id:61,name:"Xiaomi Smart Purifier 4 Pro",brand:"Xiaomi",price:199,image:"https://placehold.co/200x200/111/ff6600?text=Purifier"},{id:62,name:"Sony Alpha 7 IV",brand:"Sony",price:2499,image:"https://placehold.co/200x200/111/ff6600?text=A7+IV"},{id:63,name:"Canon EOS R50",brand:"Canon",price:699,image:"https://placehold.co/200x200/111/ff6600?text=R50"},{id:64,name:"Belkin 3-in-1 MagSafe",brand:"Belkin",price:99,image:"https://placehold.co/200x200/111/ff6600?text=Belkin"},{id:65,name:"Samsung Neo QLED 8K 55",brand:"Samsung",price:2999,image:"https://placehold.co/200x200/111/ff6600?text=Neo+8K"}];
+const RATES={USD:{s:'$',r:1},EUR:{s:'€',r:0.92},RUB:{s:'₽',r:91.5},KZT:{s:'₸',r:450},UZS:{s:"so'm",r:12500}};
+let cur=localStorage.getItem('uyuchun_cur')||'USD';
+document.getElementById('curSel').value=cur;
+function changeCur(c){cur=c;localStorage.setItem('uyuchun_cur',c);render();}
+function fmt(p){const c=RATES[cur];return c.s+Math.round(p*c.r).toLocaleString();}
+let cart=JSON.parse(localStorage.getItem('uyuchun_cart')||'[]');
+let discount=0;
+function saveCart(){localStorage.setItem('uyuchun_cart',JSON.stringify(cart));}
+function render(){
+  const main=document.getElementById('main');
+  if(!cart.length){
+    main.innerHTML=`<h1 style="grid-column:1/-1"><i class="fas fa-shopping-cart" style="color:var(--primary);margin-right:12px"></i>Savat</h1>
+    <div class="empty-cart">
+      <i class="fas fa-shopping-cart"></i>
+      <h2>Savatingiz bo'sh</h2>
+      <p>Hali hech narsa qo'shmagansiz</p>
+      <button class="checkout-btn" style="width:auto;padding:14px 32px;margin:0 auto" onclick="location.href='index.html'">
+        <i class="fas fa-arrow-left"></i> Mahsulotlarni ko'rish
+      </button>
+    </div>
+    <div class="suggest-grid">${PRODUCTS.sort((a,b)=>b.rating-a.rating).slice(0,6).map(p=>`<div class="sug-card" onclick="location.href='product.html?id=${p.id}'">
+      <img src="${p.image}" alt="${p.name}">
+      <div class="sug-info"><div class="sug-name">${p.name}</div><div class="sug-price">${fmt(p.price)}</div></div>
+    </div>`).join('')}</div>`;
+    return;
+  }
+  const subtotal=cart.reduce((s,c)=>{const p=PRODUCTS.find(x=>x.id===c.id);return s+(p?p.price*c.qty:0);},0);
+  const shipping=subtotal>500?0:30;
+  const total=subtotal-discount+shipping;
+  const itemsHtml=cart.map(c=>{
+    const p=PRODUCTS.find(x=>x.id===c.id);if(!p)return '';
+    return `<div class="cart-item">
+      <div class="item-img" onclick="location.href='product.html?id=${p.id}'"><img src="${p.image}" alt="${p.name}"></div>
+      <div class="item-body">
+        <div class="item-brand">${p.brand}</div>
+        <div class="item-name" onclick="location.href='product.html?id=${p.id}'">${p.name}</div>
+        <div class="item-price">${fmt(p.price)}</div>
+        <div class="item-subtotal">Jami: ${fmt(p.price*c.qty)}</div>
+        <div class="item-actions">
+          <div class="qty-ctrl">
+            <button onclick="setQty(${p.id},-1)">−</button>
+            <span>${c.qty}</span>
+            <button onclick="setQty(${p.id},1)">+</button>
+          </div>
+          <button class="remove-btn" onclick="removeItem(${p.id})"><i class="fas fa-trash"></i> O'chirish</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  main.innerHTML=`<h1 style="grid-column:1/-1"><i class="fas fa-shopping-cart" style="color:var(--primary);margin-right:12px"></i>Savat <span style="color:var(--text2);font-size:1rem;font-weight:500">(${cart.reduce((s,c)=>s+c.qty,0)} ta mahsulot)</span></h1>
+  <div class="cart-items">${itemsHtml}</div>
+  <div class="summary">
+    <h2>Buyurtma xulosasi</h2>
+    <div class="sum-row label"><span>Mahsulotlar jami</span><span>${fmt(subtotal)}</span></div>
+    ${discount>0?`<div class="sum-row" style="color:#00c853"><span>Chegirma</span><span>−${fmt(discount)}</span></div>`:''}
+    <div class="sum-row label"><span>Yetkazib berish</span><span>${shipping===0?'<span style="color:#00c853">Bepul</span>':fmt(shipping)}</span></div>
+    ${shipping>0?`<p style="font-size:0.77rem;color:var(--text2);margin-top:-8px">${fmt(500)} dan yuqori buyurtmada bepul</p>`:''}
+    <div class="sum-row total"><span>Umumiy</span><span>${fmt(total)}</span></div>
+    <div class="promo-row">
+      <input class="promo-input" id="promoInput" placeholder="Promo kod" value="">
+      <button class="promo-btn" onclick="applyPromo()">Qo'llash</button>
+    </div>
+    <div class="promo-ok" id="promoOk">✅ Promo kod qo'llandi! 10% chegirma</div>
+    <button class="checkout-btn" onclick="location.href='checkout.html'"><i class="fas fa-lock"></i> Xavfsiz to'lov</button>
+    <button class="continue-btn" onclick="location.href='index.html'"><i class="fas fa-arrow-left"></i> Xarid davom ettirish</button>
+    <button class="clear-btn" onclick="clearCart()"><i class="fas fa-trash"></i> Savatni tozalash</button>
+    <div class="delivery-info">
+      <i class="fas fa-shield-alt"></i>
+      <p>Xavfsiz to'lov. Barcha buyurtmalar 2 yil kafolat bilan. 14 kun ichida bepul qaytarish.</p>
+    </div>
+  </div>`;
+}
+function setQty(id,d){
+  const p=PRODUCTS.find(x=>x.id===id);
+  const c=cart.find(x=>x.id===id);
+  if(!c)return;
+  c.qty=Math.max(1,Math.min(c.qty+d,p.stock||99));
+  saveCart();render();
+}
+function removeItem(id){cart=cart.filter(x=>x.id!==id);saveCart();render();}
+function clearCart(){cart=[];saveCart();render();}
+function applyPromo(){
+  const code=document.getElementById('promoInput').value.trim().toUpperCase();
+  if(code==='UYUCHUN10'||code==='CHEGIRMA10'){
+    const subtotal=cart.reduce((s,c)=>{const p=PRODUCTS.find(x=>x.id===c.id);return s+(p?p.price*c.qty:0);},0);
+    discount=subtotal*0.1;
+    document.getElementById('promoOk').style.display='block';
+    render();
+  }
+}
+render();
+</script>
+</body>
+</html>

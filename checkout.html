@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rasmiylashtirish - UyUchun</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--primary:#ff6600;--primary-dark:#cc5200;--bg:#0a0a0a;--bg2:#111111;--bg3:#1a1a1a;--bg4:#222222;--text:#f0f0f0;--text2:#aaaaaa;--border:#2a2a2a;--card:#161616;--success:#00c853;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px}
+header{background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.hdr{max-width:1100px;margin:0 auto;padding:0 20px;height:65px;display:flex;align-items:center;gap:14px}
+.logo{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,#ff6600,#ff9900);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer}
+.back-btn{color:var(--text2);font-size:0.9rem;cursor:pointer;padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;gap:8px;margin-left:auto;transition:all .2s}
+.back-btn:hover{color:var(--primary);border-color:var(--primary)}
+.steps{max-width:1100px;margin:20px auto;padding:0 20px;display:flex;align-items:center}
+.step{display:flex;align-items:center;gap:8px;flex:1}
+.step-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;flex-shrink:0}
+.step.done .step-num{background:var(--success);color:#fff}
+.step.active .step-num{background:var(--primary);color:#fff}
+.step.inactive .step-num{background:var(--bg4);color:var(--text2)}
+.step-label{font-size:0.85rem;font-weight:600}
+.step.active .step-label{color:var(--primary)}
+.step.inactive .step-label,.step.done .step-label{color:var(--text2)}
+.step-line{flex:1;height:2px;background:var(--border);margin:0 10px}
+.step-line.done{background:var(--success)}
+.main{max-width:1100px;margin:0 auto;padding:20px 20px 60px;display:grid;grid-template-columns:1fr 350px;gap:28px;align-items:start}
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:18px}
+.form-card h2{font-size:1.1rem;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:0.77rem;color:var(--text2);font-weight:600;text-transform:uppercase}
+.form-group label .req{color:var(--primary)}
+.form-input,.form-textarea{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:11px 14px;border-radius:8px;font-size:0.9rem;outline:none;font-family:'Inter',sans-serif;transition:border-color .2s;width:100%}
+.form-input:focus,.form-textarea:focus{border-color:var(--primary)}
+.form-input.error{border-color:#ff4444}
+.form-textarea{resize:vertical;min-height:80px}
+.delivery-opts,.payment-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt-card{border:2px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:4px}
+.opt-card:hover,.opt-card.selected{border-color:var(--primary);background:rgba(255,102,0,0.07)}
+.opt-title{font-size:0.88rem;font-weight:700;display:flex;align-items:center;gap:7px}
+.opt-desc{font-size:0.75rem;color:var(--text2)}
+.opt-price{font-size:0.85rem;font-weight:700;color:var(--primary)}
+.order-summary{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;position:sticky;top:80px}
+.order-summary h2{font-size:1.1rem;font-weight:800;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.order-items{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;max-height:260px;overflow-y:auto}
+.order-item{display:flex;gap:10px;align-items:center}
+.order-item img{width:48px;height:48px;object-fit:contain;background:var(--bg3);border-radius:8px;padding:4px}
+.oi-name{font-size:0.82rem;font-weight:600;margin-bottom:2px}
+.oi-qty{font-size:0.74rem;color:var(--text2)}
+.oi-price{font-size:0.88rem;font-weight:700;color:var(--primary);margin-left:auto}
+.sum-row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:0.88rem}
+.sum-row.lbl span:first-child{color:var(--text2)}
+.sum-row.total{font-size:1.1rem;font-weight:800;color:var(--primary);padding-top:12px;border-top:1px solid var(--border);margin-top:6px}
+.submit-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:15px;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .3s}
+.submit-btn:hover{background:var(--primary-dark);transform:translateY(-1px)}
+.submit-btn:disabled{background:var(--bg4);color:var(--text2);cursor:not-allowed;transform:none}
+.secure-note{display:flex;align-items:center;gap:6px;font-size:0.77rem;color:var(--text2);justify-content:center;margin-top:10px}
+.status-msg{text-align:center;font-size:0.82rem;margin-top:8px;padding:8px;border-radius:8px}
+.spinner{width:20px;height:20px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.success-page{max-width:600px;margin:60px auto;padding:20px;text-align:center;display:none}
+.success-icon{width:90px;height:90px;background:rgba(0,200,83,0.1);border:3px solid var(--success);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:2.5rem;color:var(--success)}
+.success-page h1{font-size:2rem;font-weight:800;margin-bottom:12px}
+.success-page p{color:var(--text2);margin-bottom:24px;line-height:1.6}
+.order-details-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;text-align:left;margin-bottom:24px}
+.order-details-box h3{font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--primary)}
+.detail-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.9rem}
+.detail-row:last-child{border-bottom:none;font-weight:700;color:var(--primary)}
+.detail-row span:first-child{color:var(--text2)}
+.success-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-p{background:var(--primary);color:#fff;border:none;padding:14px 28px;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer}
+.btn-p:hover{background:var(--primary-dark)}
+.btn-o{background:transparent;color:var(--text);border:2px solid var(--border);padding:12px 28px;border-radius:12px;font-size:0.95rem;font-weight:600;cursor:pointer}
+.btn-o:hover{border-color:var(--primary);color:var(--primary)}
+@media(max-width:768px){.main{grid-template-columns:1fr}.order-summary{position:static}.form-grid{grid-template-columns:1fr}.delivery-opts,.payment-opts{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr">
+    <div class="logo" onclick="location.href='index.html'">⚡ UyUchun</div>
+    <div class="back-btn" onclick="location.href='cart.html'"><i class="fas fa-arrow-left"></i> Savatga qaytish</div>
+  </div>
+</header>
+<div class="steps">
+  <div class="step done"><div class="step-num"><i class="fas fa-check"></i></div><span class="step-label">Savat</span></div>
+  <div class="step-line done"></div>
+  <div class="step active"><div class="step-num">2</div><span class="step-label">Rasmiylashtirish</span></div>
+  <div class="step-line"></div>
+  <div class="step inactive"><div class="step-num">3</div><span class="step-label">Tasdiqlash</span></div>
+</div>
+<div class="main" id="checkoutMain">
+  <div>
+    <div class="form-card">
+      <h2><i class="fas fa-user" style="color:var(--primary)"></i> Shaxsiy ma'lumotlar</h2>
+      <div class="form-grid">
+        <div class="form-group"><label>To'liq ism <span class="req">*</span></label><input class="form-input" id="fname" placeholder="Alisher Nazarov"></div>
+        <div class="form-group"><label>Telefon <span class="req">*</span></label><input class="form-input" id="fphone" placeholder="+998 90 123 45 67" type="tel"></div>
+        <div class="form-group full"><label>E-mail <span class="req">*</span></label><input class="form-input" id="femail" placeholder="sizning@email.uz" type="email"></div>
+      </div>
+    </div>
+    <div class="form-card">
+      <h2><i class="fas fa-truck" style="color:var(--primary)"></i> Yetkazib berish</h2>
+      <div class="delivery-opts">
+        <div class="opt-card selected" id="del-courier" onclick="selectDel('courier')">
+          <div class="opt-title"><i class="fas fa-motorcycle" style="color:var(--primary)"></i> Kuryer</div>
+          <div class="opt-desc">Ertangi kunda eshikgacha</div><div class="opt-price">$5</div>
+        </div>
+        <div class="opt-card" id="del-express" onclick="selectDel('express')">
+          <div class="opt-title"><i class="fas fa-rocket" style="color:var(--primary)"></i> Ekspress</div>
+          <div class="opt-desc">Bugun (12:00 gacha)</div><div class="opt-price">$15</div>
+        </div>
+        <div class="opt-card" id="del-pickup" onclick="selectDel('pickup')">
+          <div class="opt-title"><i class="fas fa-store" style="color:var(--primary)"></i> Olib ketish</div>
+          <div class="opt-desc">Toshkentdagi do'kondan</div><div class="opt-price">Bepul</div>
+        </div>
+        <div class="opt-card" id="del-postal" onclick="selectDel('postal')">
+          <div class="opt-title"><i class="fas fa-envelope" style="color:var(--primary)"></i> Pochta</div>
+          <div class="opt-desc">3-5 ish kuni</div><div class="opt-price">$3</div>
+        </div>
+      </div>
+      <div class="form-group full" style="margin-top:16px">
+        <label>Manzil <span class="req">*</span></label>
+        <input class="form-input" id="faddress" placeholder="Ko'cha, uy, xonadon raqami">
+      </div>
+    </div>
+    <div class="form-card">
+      <h2><i class="fas fa-credit-card" style="color:var(--primary)"></i> To'lov usuli</h2>
+      <div class="payment-opts">
+        <div class="opt-card selected" id="pay-card" onclick="selectPay('card')">
+          <div class="opt-title"><i class="fas fa-credit-card" style="color:var(--primary)"></i> Plastik karta</div>
+          <div class="opt-desc">Visa, MasterCard, UZCARD, HUMO</div>
+        </div>
+        <div class="opt-card" id="pay-cash" onclick="selectPay('cash')">
+          <div class="opt-title"><i class="fas fa-money-bill-wave" style="color:var(--primary)"></i> Naqd pul</div>
+          <div class="opt-desc">Qabul qilishda to'lash</div>
+        </div>
+        <div class="opt-card" id="pay-transfer" onclick="selectPay('transfer')">
+          <div class="opt-title"><i class="fas fa-university" style="color:var(--primary)"></i> Bank o'tkazmasi</div>
+          <div class="opt-desc">To'g'ridan-to'g'ri</div>
+        </div>
+        <div class="opt-card" id="pay-crypto" onclick="selectPay('crypto')">
+          <div class="opt-title"><i class="fab fa-bitcoin" style="color:#ffaa00"></i> Kripto</div>
+          <div class="opt-desc">USDT, BTC, ETH</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-card">
+      <h2><i class="fas fa-comment" style="color:var(--primary)"></i> Izoh</h2>
+      <textarea class="form-textarea" id="fcomment" placeholder="Maxsus ko'rsatmalar, yetkazish vaqti..."></textarea>
+    </div>
+  </div>
+  <div class="order-summary">
+    <h2>Buyurtmangiz</h2>
+    <div class="order-items" id="orderItems"></div>
+    <div class="sum-row lbl"><span>Mahsulotlar</span><span id="sumSub"></span></div>
+    <div class="sum-row lbl"><span>Yetkazib berish</span><span id="sumDel"></span></div>
+    <div class="sum-row total"><span>Umumiy</span><span id="sumTotal"></span></div>
+    <button class="submit-btn" id="submitBtn" onclick="submitOrder()">
+      <i class="fas fa-lock"></i> Buyurtma berish
+      <div class="spinner" id="spinner"></div>
+    </button>
+    <div class="secure-note"><i class="fas fa-shield-alt" style="color:var(--success)"></i> Xavfsiz buyurtma</div>
+    <div class="status-msg" id="statusMsg"></div>
+  </div>
+</div>
+<div class="success-page" id="successPage">
+  <div class="success-icon"><i class="fas fa-check"></i></div>
+  <h1>Buyurtma berildi! 🎉</h1>
+  <p>Rahmat! Tez orada siz bilan bog'lanamiz.</p>
+  <div class="order-details-box" id="successDetails"></div>
+  <div class="success-btns">
+    <button class="btn-p" onclick="location.href='index.html'"><i class="fas fa-home"></i> Bosh sahifa</button>
+    <button class="btn-o" onclick="location.href='admin.html'"><i class="fas fa-list"></i> Buyurtmalar</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCxrpW7mzxyjqhENRSI5HM1Hwgjv4XuW00",
+  authDomain: "elvon-shop.firebaseapp.com",
+  projectId: "elvon-shop",
+  storageBucket: "elvon-shop.firebasestorage.app",
+  messagingSenderId: "461517560602",
+  appId: "1:461517560602:web:4a42320b59bd26a3192aa3"
+};
+const TG_TOKEN = '8737707364:AAHORxufiW3H9tdm9tKH8kqfEJo2zgsFaCA';
+const TG_CHAT  = '5584818639';
+
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
+
+const PRODUCTS=[{id:1,name:"iPhone 15 Pro Max",brand:"Apple",price:1299,image:"https://placehold.co/80x80/111/ff6600?text=iPhone"},{id:2,name:"Samsung Galaxy S24 Ultra",brand:"Samsung",price:1199,image:"https://placehold.co/80x80/111/ff6600?text=S24"},{id:3,name:"Xiaomi 14 Pro",brand:"Xiaomi",price:899,image:"https://placehold.co/80x80/111/ff6600?text=Mi14"},{id:4,name:"OnePlus 12",brand:"OnePlus",price:799,image:"https://placehold.co/80x80/111/ff6600?text=OP12"},{id:5,name:"Google Pixel 8 Pro",brand:"Google",price:999,image:"https://placehold.co/80x80/111/ff6600?text=Pixel8"},{id:6,name:"Samsung Galaxy A54",brand:"Samsung",price:449,image:"https://placehold.co/80x80/111/ff6600?text=A54"},{id:7,name:"Xiaomi Redmi Note 13 Pro",brand:"Xiaomi",price:349,image:"https://placehold.co/80x80/111/ff6600?text=Note13"},{id:8,name:"Apple Watch Series 9",brand:"Apple",price:399,image:"https://placehold.co/80x80/111/ff6600?text=Watch9"},{id:9,name:"Samsung Galaxy Tab S9 Ultra",brand:"Samsung",price:1099,image:"https://placehold.co/80x80/111/ff6600?text=TabS9"},{id:10,name:"iPad Pro 12.9 M2",brand:"Apple",price:1099,image:"https://placehold.co/80x80/111/ff6600?text=iPad"},{id:11,name:"Sony WH-1000XM5",brand:"Sony",price:349,image:"https://placehold.co/80x80/111/ff6600?text=XM5"},{id:12,name:"Apple AirPods Pro 2",brand:"Apple",price:249,image:"https://placehold.co/80x80/111/ff6600?text=AirPods"},{id:13,name:"Samsung Galaxy Buds2 Pro",brand:"Samsung",price:199,image:"https://placehold.co/80x80/111/ff6600?text=Buds2"},{id:14,name:"Bose QuietComfort 45",brand:"Bose",price:279,image:"https://placehold.co/80x80/111/ff6600?text=QC45"},{id:15,name:"Xiaomi Smart Band 8",brand:"Xiaomi",price:49,image:"https://placehold.co/80x80/111/ff6600?text=Band8"},{id:16,name:"Garmin Fenix 7 Pro",brand:"Garmin",price:699,image:"https://placehold.co/80x80/111/ff6600?text=Fenix7"},{id:17,name:"Anker 65W Zaryadlovchi",brand:"Anker",price:39,image:"https://placehold.co/80x80/111/ff6600?text=Anker"},{id:18,name:"MacBook Pro 14 M3",brand:"Apple",price:1999,image:"https://placehold.co/80x80/111/ff6600?text=MacBook"},{id:19,name:"Dell XPS 15",brand:"Dell",price:1799,image:"https://placehold.co/80x80/111/ff6600?text=XPS15"},{id:20,name:"ASUS ROG Zephyrus G14",brand:"ASUS",price:1499,image:"https://placehold.co/80x80/111/ff6600?text=ROG"},{id:21,name:"Lenovo ThinkPad X1 Carbon",brand:"Lenovo",price:1599,image:"https://placehold.co/80x80/111/ff6600?text=X1"},{id:22,name:"HP Spectre x360",brand:"HP",price:1399,image:"https://placehold.co/80x80/111/ff6600?text=Spectre"},{id:23,name:"ASUS VivoBook 15 OLED",brand:"ASUS",price:799,image:"https://placehold.co/80x80/111/ff6600?text=VivoBook"},{id:24,name:"Lenovo IdeaPad 3",brand:"Lenovo",price:599,image:"https://placehold.co/80x80/111/ff6600?text=IdeaPad"},{id:25,name:"MSI Titan GT77",brand:"MSI",price:2999,image:"https://placehold.co/80x80/111/ff6600?text=Titan"},{id:26,name:"Razer DeathAdder V3",brand:"Razer",price:79,image:"https://placehold.co/80x80/111/ff6600?text=Razer"},{id:27,name:"Logitech MX Master 3S",brand:"Logitech",price:99,image:"https://placehold.co/80x80/111/ff6600?text=MX3S"},{id:28,name:"Samsung Odyssey G7 27",brand:"Samsung",price:499,image:"https://placehold.co/80x80/111/ff6600?text=G7"},{id:29,name:"LG UltraFine 32 4K",brand:"LG",price:699,image:"https://placehold.co/80x80/111/ff6600?text=LG4K"},{id:30,name:"WD My Passport 4TB",brand:"WD",price:99,image:"https://placehold.co/80x80/111/ff6600?text=WD"},{id:31,name:"Samsung 980 Pro 2TB",brand:"Samsung",price:149,image:"https://placehold.co/80x80/111/ff6600?text=980Pro"},{id:32,name:"Samsung 65 QLED Q80C",brand:"Samsung",price:1299,image:"https://placehold.co/80x80/111/ff6600?text=Q80C"},{id:33,name:"LG OLED C3 55",brand:"LG",price:1599,image:"https://placehold.co/80x80/111/ff6600?text=C3"},{id:34,name:"Sony Bravia A80L 65",brand:"Sony",price:1799,image:"https://placehold.co/80x80/111/ff6600?text=A80L"},{id:35,name:"TCL 55 Mini-LED QLED",brand:"TCL",price:699,image:"https://placehold.co/80x80/111/ff6600?text=TCL"},{id:36,name:"Hisense 75 ULED U8K",brand:"Hisense",price:899,image:"https://placehold.co/80x80/111/ff6600?text=H75"},{id:37,name:"Samsung HW-Q990C Soundbar",brand:"Samsung",price:799,image:"https://placehold.co/80x80/111/ff6600?text=Q990C"},{id:38,name:"LG WashTower",brand:"LG",price:1999,image:"https://placehold.co/80x80/111/ff6600?text=WT"},{id:39,name:"Samsung Family Hub",brand:"Samsung",price:1499,image:"https://placehold.co/80x80/111/ff6600?text=FH"},{id:40,name:"Bosch Kir Yuvish Mashinasi",brand:"Bosch",price:699,image:"https://placehold.co/80x80/111/ff6600?text=Bosch"},{id:41,name:"Dyson V15 Detect",brand:"Dyson",price:699,image:"https://placehold.co/80x80/111/ff6600?text=V15"},{id:42,name:"iRobot Roomba j7+",brand:"iRobot",price:599,image:"https://placehold.co/80x80/111/ff6600?text=j7"},{id:43,name:"Xiaomi Robot Changyutgich",brand:"Xiaomi",price:299,image:"https://placehold.co/80x80/111/ff6600?text=S10"},{id:44,name:"Miele Idish Yuvish",brand:"Miele",price:1299,image:"https://placehold.co/80x80/111/ff6600?text=Miele"},{id:45,name:"Haier 500L Muzlatgich",brand:"Haier",price:799,image:"https://placehold.co/80x80/111/ff6600?text=Haier"},{id:46,name:"Philips Hue Starter",brand:"Philips",price:149,image:"https://placehold.co/80x80/111/ff6600?text=Hue"},{id:47,name:"Nespresso Vertuo Next",brand:"Nespresso",price:199,image:"https://placehold.co/80x80/111/ff6600?text=Nespresso"},{id:48,name:"KitchenAid Artisan",brand:"KitchenAid",price:499,image:"https://placehold.co/80x80/111/ff6600?text=KA"},{id:49,name:"Ninja Foodi 9-in-1",brand:"Ninja",price:299,image:"https://placehold.co/80x80/111/ff6600?text=Ninja"},{id:50,name:"Philips Airfryer XXL",brand:"Philips",price:249,image:"https://placehold.co/80x80/111/ff6600?text=AF"},{id:51,name:"Instant Pot Duo",brand:"Instant Pot",price:99,image:"https://placehold.co/80x80/111/ff6600?text=IP"},{id:52,name:"Bosch Serie 8 Pech",brand:"Bosch",price:899,image:"https://placehold.co/80x80/111/ff6600?text=Oven"},{id:53,name:"Electrolux Induksion",brand:"Electrolux",price:599,image:"https://placehold.co/80x80/111/ff6600?text=Induction"},{id:54,name:"Vitamix 5200",brand:"Vitamix",price:449,image:"https://placehold.co/80x80/111/ff6600?text=Vitamix"},{id:55,name:"Bosch Tassimo",brand:"Bosch",price:149,image:"https://placehold.co/80x80/111/ff6600?text=Tassimo"},{id:56,name:"Dyson Purifier Hot+Cool",brand:"Dyson",price:799,image:"https://placehold.co/80x80/111/ff6600?text=HP07"},{id:57,name:"Daikin Split AC",brand:"Daikin",price:999,image:"https://placehold.co/80x80/111/ff6600?text=Daikin"},{id:58,name:"Midea Konditsioner",brand:"Midea",price:399,image:"https://placehold.co/80x80/111/ff6600?text=Midea"},{id:59,name:"Honeywell AC",brand:"Honeywell",price:499,image:"https://placehold.co/80x80/111/ff6600?text=Honeywell"},{id:60,name:"Honeywell HPA300",brand:"Honeywell",price:249,image:"https://placehold.co/80x80/111/ff6600?text=HPA300"},{id:61,name:"Xiaomi Purifier 4 Pro",brand:"Xiaomi",price:199,image:"https://placehold.co/80x80/111/ff6600?text=Purifier"},{id:62,name:"Sony Alpha 7 IV",brand:"Sony",price:2499,image:"https://placehold.co/80x80/111/ff6600?text=A7IV"},{id:63,name:"Canon EOS R50",brand:"Canon",price:699,image:"https://placehold.co/80x80/111/ff6600?text=R50"},{id:64,name:"Belkin 3-in-1 MagSafe",brand:"Belkin",price:99,image:"https://placehold.co/80x80/111/ff6600?text=Belkin"},{id:65,name:"Samsung Neo QLED 8K 55",brand:"Samsung",price:2999,image:"https://placehold.co/80x80/111/ff6600?text=8K"}];
+
+const DCOST={courier:5,express:15,pickup:0,postal:3};
+const DNAME={courier:"Kuryer",express:"Ekspress",pickup:"Do'kondan olib ketish",postal:"Pochta"};
+const PNAME={card:"Plastik karta",cash:"Naqd pul",transfer:"Bank o'tkazmasi",crypto:"Kripto"};
+let cart=JSON.parse(localStorage.getItem('uyuchun_cart')||'[]');
+let selDel='courier', selPay='card';
+
+window.selectDel=function(t){selDel=t;document.querySelectorAll('[id^=del-]').forEach(e=>e.classList.remove('selected'));document.getElementById('del-'+t).classList.add('selected');updateSummary();};
+window.selectPay=function(t){selPay=t;document.querySelectorAll('[id^=pay-]').forEach(e=>e.classList.remove('selected'));document.getElementById('pay-'+t).classList.add('selected');};
+
+function updateSummary(){
+  const sub=cart.reduce((s,c)=>{const p=PRODUCTS.find(x=>x.id===c.id);return s+(p?p.price*c.qty:0);},0);
+  const del=DCOST[selDel]||0;
+  document.getElementById('sumSub').textContent='$'+sub.toLocaleString();
+  document.getElementById('sumDel').textContent=del===0?'Bepul':'$'+del;
+  document.getElementById('sumTotal').textContent='$'+(sub+del).toLocaleString();
+  document.getElementById('orderItems').innerHTML=cart.map(c=>{
+    const p=PRODUCTS.find(x=>x.id===c.id);if(!p)return'';
+    return`<div class="order-item"><img src="${p.image}" alt="${p.name}"><div style="flex:1"><div class="oi-name">${p.name}</div><div class="oi-qty">×${c.qty}</div></div><div class="oi-price">$${(p.price*c.qty).toLocaleString()}</div></div>`;
+  }).join('');
+}
+
+async function sendTelegram(order){
+  const lines=order.items.map(i=>`  • ${i.name} ×${i.qty} — $${(i.price*i.qty).toLocaleString()}`).join('\n');
+  const msg=`📦 YANGI BUYURTMA #${order.id}\n\n👤 ${order.name}\n📞 ${order.phone}\n📧 ${order.email}\n🏠 ${order.address}\n🚚 ${DNAME[order.delivery]}\n💳 ${PNAME[order.payment]}\n💰 Jami: $${order.total}\n🕒 ${order.time}\n\n📋 Mahsulotlar:\n${lines}${order.comment?'\n\n💬 Izoh: '+order.comment:''}`;
+  try{await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:TG_CHAT,text:msg})});}catch(e){console.warn('TG xato:',e);}
+}
+
+window.submitOrder=async function(){
+  const name=document.getElementById('fname').value.trim();
+  const phone=document.getElementById('fphone').value.trim();
+  const email=document.getElementById('femail').value.trim();
+  const address=document.getElementById('faddress').value.trim();
+  const comment=document.getElementById('fcomment').value.trim();
+  let ok=true;
+  [['fname',name],['fphone',phone],['femail',email],['faddress',address]].forEach(([id,v])=>{
+    const el=document.getElementById(id);
+    if(!v){el.classList.add('error');ok=false;}else el.classList.remove('error');
+  });
+  if(!ok){document.getElementById('fname').scrollIntoView({behavior:'smooth'});return;}
+
+  const btn=document.getElementById('submitBtn');
+  const spinner=document.getElementById('spinner');
+  const msg=document.getElementById('statusMsg');
+  btn.disabled=true; spinner.style.display='block'; msg.textContent='';msg.className='status-msg';
+
+  const sub=cart.reduce((s,c)=>{const p=PRODUCTS.find(x=>x.id===c.id);return s+(p?p.price*c.qty:0);},0);
+  const del=DCOST[selDel]||0;
+  const total=sub+del;
+  const orderId='BUY-'+Date.now().toString().slice(-6);
+  const now=new Date();
+
+  const order={
+    id:orderId,name,phone,email,address,
+    delivery:selDel,payment:selPay,comment,
+    total,subtotal:sub,deliveryCost:del,
+    items:cart.map(c=>{const p=PRODUCTS.find(x=>x.id===c.id);return{id:c.id,name:p?.name||'',brand:p?.brand||'',price:p?.price||0,qty:c.qty};}),
+    status:'new',
+    time:now.toLocaleString('uz-UZ'),
+  };
+
+  try{
+    const docRef=await addDoc(collection(db,'orders'),{...order,timestamp:serverTimestamp()});
+    console.log('Firebase ID:',docRef.id);
+
+    // localStorage ga ham yoz (admin panel uchun)
+    const local=JSON.parse(localStorage.getItem('uyuchun_orders')||'[]');
+    local.push({...order,timestamp:now.toISOString(),firebaseId:docRef.id});
+    localStorage.setItem('uyuchun_orders',JSON.stringify(local));
+
+    await sendTelegram(order);
+
+    msg.textContent='✅ Buyurtma muvaffaqiyatli saqlandi!';
+    msg.className='status-msg ok';
+    await new Promise(r=>setTimeout(r,800));
+
+    localStorage.setItem('uyuchun_cart','[]');
+    document.getElementById('checkoutMain').style.display='none';
+    const sp=document.getElementById('successPage');
+    sp.style.display='block';
+    sp.scrollIntoView({behavior:'smooth'});
+    document.getElementById('successDetails').innerHTML=`
+      <h3>Buyurtma tafsilotlari</h3>
+      <div class="detail-row"><span>Buyurtma #</span><span>${orderId}</span></div>
+      <div class="detail-row"><span>Ism</span><span>${name}</span></div>
+      <div class="detail-row"><span>Telefon</span><span>${phone}</span></div>
+      <div class="detail-row"><span>Manzil</span><span>${address}</span></div>
+      <div class="detail-row"><span>Yetkazib berish</span><span>${DNAME[selDel]}</span></div>
+      <div class="detail-row"><span>To'lov</span><span>${PNAME[selPay]}</span></div>
+      <div class="detail-row"><span>Umumiy</span><span>$${total.toLocaleString()}</span></div>`;
+  }catch(err){
+    console.error('Xato:',err);
+    msg.textContent='❌ Xato yuz berdi: '+err.message;
+    msg.className='status-msg err';
+    btn.disabled=false; spinner.style.display='none';
+  }
+};
+
+if(!cart.length){
+  document.getElementById('checkoutMain').innerHTML='<div style="text-align:center;padding:80px;grid-column:1/-1;color:#aaa"><i class="fas fa-shopping-cart" style="font-size:3rem;display:block;margin-bottom:20px;opacity:.3"></i><h2>Savat bo\'sh</h2><p style="margin:14px 0 24px">Avval mahsulot qo\'shing</p><button style="background:#ff6600;color:#fff;border:none;padding:14px 28px;border-radius:12px;font-weight:700;cursor:pointer;font-size:1rem" onclick="location.href=\'index.html\'">Mahsulotlar</button></div>';
+}else{updateSummary();}
+</script>
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - UyUchun</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--primary:#ff6600;--primary-dark:#cc5200;--bg:#08090a;--bg2:#0f1012;--bg3:#161718;--bg4:#1e1f21;--text:#f0f0f0;--text2:#8a8f98;--border:#23252a;--card:#121315;--success:#00c853;--warning:#ffab00;--danger:#ff3d3d;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px}
+.login-overlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999}
+.login-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:40px;width:380px;max-width:90vw}
+.login-logo{text-align:center;margin-bottom:28px}
+.llogo{font-size:2rem;font-weight:800;background:linear-gradient(135deg,#ff6600,#ff9900);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.login-logo p{color:var(--text2);font-size:0.88rem;margin-top:4px}
+.login-box h2{font-size:1.3rem;font-weight:800;margin-bottom:22px;text-align:center}
+.lg{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.lg label{font-size:0.78rem;color:var(--text2);font-weight:600;text-transform:uppercase}
+.li{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px 14px;border-radius:8px;font-size:0.9rem;outline:none;font-family:'Inter',sans-serif;width:100%;transition:border-color .2s}
+.li:focus{border-color:var(--primary)}
+.login-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:14px;border-radius:10px;font-size:0.95rem;font-weight:700;cursor:pointer;margin-top:8px;transition:background .2s}
+.login-btn:hover{background:var(--primary-dark)}
+.login-err{color:var(--danger);font-size:0.83rem;text-align:center;margin-top:10px;display:none}
+.app{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:230px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.sb-logo{padding:18px 20px;border-bottom:1px solid var(--border)}
+.sb-logo .logo{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,#ff6600,#ff9900);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sb-logo .sub{font-size:0.72rem;color:var(--text2);margin-top:2px}
+nav{padding:14px 10px;flex:1;display:flex;flex-direction:column;gap:3px}
+.ni{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:9px;cursor:pointer;font-size:0.88rem;font-weight:500;color:var(--text2);transition:all .2s}
+.ni:hover,.ni.active{background:rgba(255,102,0,0.1);color:var(--primary)}
+.ni i{width:16px;text-align:center;font-size:0.82rem}
+.nb{background:var(--primary);color:#fff;font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:10px;margin-left:auto}
+.sb-foot{padding:14px;border-top:1px solid var(--border)}
+.logout-btn{width:100%;background:transparent;color:var(--text2);border:1px solid var(--border);padding:9px;border-radius:8px;cursor:pointer;font-size:0.83rem;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .2s}
+.logout-btn:hover{border-color:var(--danger);color:var(--danger)}
+.main-content{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 22px;height:58px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.topbar h1{font-size:1.1rem;font-weight:800}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.fb-badge{background:rgba(255,102,0,0.15);color:var(--primary);font-size:0.73rem;font-weight:700;padding:4px 10px;border-radius:20px;display:flex;align-items:center;gap:5px}
+.pulse{width:7px;height:7px;background:var(--success);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
+.content{padding:22px;flex:1}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;margin-bottom:22px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:1rem}
+.si-o{background:rgba(255,102,0,0.15);color:var(--primary)}
+.si-g{background:rgba(0,200,83,0.15);color:var(--success)}
+.si-b{background:rgba(33,150,243,0.15);color:#2196f3}
+.si-p{background:rgba(156,39,176,0.15);color:#9c27b0}
+.stat-val{font-size:1.7rem;font-weight:800;margin-bottom:2px}
+.stat-lbl{font-size:0.78rem;color:var(--text2)}
+.table-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.th{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px}
+.th h2{font-size:1rem;font-weight:800}
+.tf{display:flex;gap:8px;flex-wrap:wrap}
+.tfs{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 11px;border-radius:7px;font-size:0.82rem;outline:none;font-family:'Inter',sans-serif;cursor:pointer}
+.tfs:focus{border-color:var(--primary)}
+table{width:100%;border-collapse:collapse}
+thead{background:var(--bg3)}
+th{padding:11px 14px;text-align:left;font-size:0.73rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+td{padding:12px 14px;border-top:1px solid var(--border);font-size:0.85rem;vertical-align:middle}
+tr:hover td{background:rgba(255,102,0,0.02)}
+.sbadge{padding:3px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+.sbadge.new{background:rgba(33,150,243,0.15);color:#64b5f6}
+.sbadge.processing{background:rgba(255,171,0,0.15);color:var(--warning)}
+.sbadge.completed{background:rgba(0,200,83,0.15);color:var(--success)}
+.sbadge.cancelled{background:rgba(255,61,61,0.15);color:var(--danger)}
+.ab{display:flex;gap:5px}
+.tb{padding:5px 9px;border-radius:6px;font-size:0.76rem;font-weight:600;cursor:pointer;border:none;display:flex;align-items:center;gap:4px;transition:all .2s}
+.tb.view{background:rgba(255,102,0,0.12);color:var(--primary)}
+.tb.view:hover{background:var(--primary);color:#fff}
+.tb.call{background:rgba(0,200,83,0.12);color:var(--success);text-decoration:none}
+.tb.call:hover{background:var(--success);color:#fff}
+.tb.del{background:rgba(255,61,61,0.12);color:var(--danger)}
+.tb.del:hover{background:var(--danger);color:#fff}
+.no-orders{text-align:center;padding:50px;color:var(--text2)}
+.no-orders i{font-size:2.5rem;margin-bottom:14px;display:block;opacity:.3}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:14px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto}
+.modal-hdr{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.modal-hdr h2{font-size:1.05rem;font-weight:800}
+.mc{background:none;border:none;color:var(--text2);cursor:pointer;font-size:1.1rem}
+.mc:hover{color:var(--danger)}
+.modal-body{padding:22px}
+.ms{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.ms:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.ms h3{font-size:0.82rem;font-weight:700;color:var(--primary);text-transform:uppercase;margin-bottom:10px}
+.md{display:flex;gap:10px;margin-bottom:7px;font-size:0.87rem}
+.md .k{color:var(--text2);width:110px;flex-shrink:0}
+.md .v{font-weight:600}
+.op-list{display:flex;flex-direction:column;gap:8px}
+.op{display:flex;gap:10px;align-items:center;background:var(--bg3);border-radius:8px;padding:9px}
+.op img{width:42px;height:42px;object-fit:contain;background:var(--bg4);border-radius:6px;padding:3px}
+.op-name{font-size:0.83rem;font-weight:600;margin-bottom:2px}
+.op-meta{font-size:0.73rem;color:var(--text2)}
+.op-price{font-size:0.88rem;font-weight:700;color:var(--primary);margin-left:auto}
+.status-sel{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:0.87rem;outline:none;font-family:'Inter',sans-serif;width:100%;cursor:pointer}
+.status-sel:focus{border-color:var(--primary)}
+.modal-foot{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}
+.mb{padding:8px 16px;border-radius:8px;font-size:0.87rem;font-weight:700;cursor:pointer;border:none;display:flex;align-items:center;gap:5px;transition:all .2s}
+.mb.p{background:var(--primary);color:#fff}
+.mb.p:hover{background:var(--primary-dark)}
+.mb.s{background:var(--bg4);color:var(--text2)}
+.mb.s:hover{color:var(--text)}
+.notif{position:fixed;top:18px;right:18px;background:var(--bg2);border:1px solid var(--primary);border-radius:12px;padding:14px 16px;z-index:99999;transform:translateX(130%);transition:transform .4s cubic-bezier(.68,-.55,.265,1.55);max-width:300px;box-shadow:0 8px 30px rgba(0,0,0,.6)}
+.notif.show{transform:translateX(0)}
+.notif-t{font-weight:800;font-size:0.92rem;margin-bottom:3px;display:flex;align-items:center;gap:7px}
+.notif-m{font-size:0.8rem;color:var(--text2)}
+.loading{text-align:center;padding:60px;color:var(--text2)}
+.loading i{font-size:2rem;margin-bottom:12px;display:block;animation:spin 1s linear infinite;color:var(--primary)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:768px){.sidebar{display:none}.stats-grid{grid-template-columns:1fr 1fr}table{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="llogo">⚡ UyUchun</div>
+      <p>Admin Paneli</p>
+    </div>
+    <h2>Kirish</h2>
+    <div class="lg"><label>Login</label><input class="li" id="lu" type="text" placeholder="admin" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="lg"><label>Parol</label><input class="li" id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="login-btn" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Kirish</button>
+    <div class="login-err" id="lerr">❌ Login yoki parol noto'g'ri</div>
+    <p style="text-align:center;margin-top:14px;font-size:0.77rem;color:var(--text2)">Login: admin / Parol: elvon2024</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="adminApp" style="display:none">
+  <div class="sidebar">
+    <div class="sb-logo">
+      <div class="logo">⚡ UyUchun</div>
+      <div class="sub">Admin Paneli</div>
+    </div>
+    <nav>
+      <div class="ni active" onclick="setPage('dashboard')"><i class="fas fa-chart-bar"></i> Bosh sahifa</div>
+      <div class="ni" onclick="setPage('orders')"><i class="fas fa-list-alt"></i> Buyurtmalar <span class="nb" id="newBadge">0</span></div>
+      <div class="ni" onclick="window.open('index.html','_blank')"><i class="fas fa-store"></i> Do'konni ko'rish</div>
+    </nav>
+    <div class="sb-foot">
+      <button class="logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Chiqish</button>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="topbar">
+      <h1 id="pageTitle">Bosh sahifa</h1>
+      <div class="topbar-right">
+        <div class="fb-badge"><div class="pulse"></div> Firebase ulangan</div>
+        <span id="lastRef" style="font-size:0.75rem;color:var(--text2)"></span>
+      </div>
+    </div>
+    <div class="content" id="content"><div class="loading"><i class="fas fa-spinner"></i><p>Yuklanmoqda...</p></div></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="orderModal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h2 id="modalTitle">Buyurtma</h2>
+      <button class="mc" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot">
+      <button class="mb s" onclick="closeModal()">Yopish</button>
+      <button class="mb p" id="saveBtn"><i class="fas fa-save"></i> Saqlash</button>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif">
+  <div class="notif-t"><i class="fas fa-bell" style="color:var(--primary)"></i><span id="notifT"></span></div>
+  <div class="notif-m" id="notifM"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCxrpW7mzxyjqhENRSI5HM1Hwgjv4XuW00",
+  authDomain: "elvon-shop.firebaseapp.com",
+  projectId: "elvon-shop",
+  storageBucket: "elvon-shop.firebasestorage.app",
+  messagingSenderId: "461517560602",
+  appId: "1:461517560602:web:4a42320b59bd26a3192aa3"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
+
+// AUTH
+const CREDS = {admin:'elvon2024'};
+let isLogged = localStorage.getItem('uyuchun_admin') === '1';
+
+window.doLogin = function(){
+  const u = document.getElementById('lu').value.trim();
+  const p = document.getElementById('lp').value.trim();
+  if(CREDS[u] && CREDS[u]===p){
+    localStorage.setItem('uyuchun_admin','1');
+    document.getElementById('loginOverlay').style.display='none';
+    document.getElementById('adminApp').style.display='flex';
+    initApp();
+  } else {
+    document.getElementById('lerr').style.display='block';
+    document.getElementById('lp').value='';
+  }
+};
+window.doLogout = function(){localStorage.removeItem('uyuchun_admin');location.reload();};
+
+if(isLogged){
+  document.getElementById('loginOverlay').style.display='none';
+  document.getElementById('adminApp').style.display='flex';
+}
+
+const SNAME = {new:'Yangi', processing:'Jarayonda', completed:'Bajarildi', cancelled:'Bekor qilindi'};
+const DNAME = {courier:'Kuryer', express:'Ekspress', pickup:"Do'kondan", postal:'Pochta'};
+const PNAME = {card:'Plastik karta', cash:'Naqd pul', transfer:"Bank o'tkazmasi", crypto:'Kripto'};
+
+let allOrders = [];
+let currentPage = 'dashboard';
+let prevCount = 0;
+let currentModalId = null;
+let unsubscribe = null;
+
+function initApp(){
+  // Real-time Firebase listener
+  const q = query(collection(db,'orders'), orderBy('timestamp','desc'));
+  unsubscribe = onSnapshot(q, (snapshot) => {
+    const newOrders = [];
+    snapshot.forEach(doc => {
+      const d = doc.data();
+      newOrders.push({
+        ...d,
+        firebaseId: doc.id,
+        time: d.time || (d.timestamp?.toDate ? d.timestamp.toDate().toLocaleString('uz-UZ') : 'Noma\'lum')
+      });
+    });
+
+    // Yangi buyurtma bildirishnomasi
+    if(prevCount > 0 && newOrders.length > prevCount){
+      const newest = newOrders[0];
+      showNotif('🆕 Yangi buyurtma!', `${newest.name} — $${newest.total}`);
+      playSound();
+    }
+    prevCount = newOrders.length;
+    allOrders = newOrders;
+    document.getElementById('lastRef').textContent = 'Yangilandi: ' + new Date().toLocaleTimeString('uz-UZ');
+    updateBadge();
+    render();
+  }, (err) => {
+    console.error('Firebase xato:', err);
+    document.getElementById('content').innerHTML = `<div style="text-align:center;padding:60px;color:#ff4444"><i class="fas fa-exclamation-triangle" style="font-size:2rem;display:block;margin-bottom:12px"></i><p>Firebase ulanishda xato: ${err.message}</p></div>`;
+  });
+}
+
+if(isLogged) initApp();
+
+function updateBadge(){
+  const cnt = allOrders.filter(o=>o.status==='new').length;
+  document.getElementById('newBadge').textContent = cnt;
+}
+
+window.setPage = function(p){
+  currentPage = p;
+  document.querySelectorAll('.ni').forEach((el,i)=>el.classList.toggle('active',['dashboard','orders'][i]===p));
+  document.getElementById('pageTitle').textContent = p==='dashboard'?'Bosh sahifa':'Buyurtmalar';
+  render();
+};
+
+function render(){
+  if(currentPage==='dashboard') renderDashboard();
+  else renderOrders();
+}
+
+function renderDashboard(){
+  const total = allOrders.reduce((s,o)=>s+o.total,0);
+  const today = allOrders.filter(o=>{
+    try{ return new Date(o.time).toDateString()===new Date().toDateString(); }catch{return false;}
+  }).length;
+  const newCnt = allOrders.filter(o=>o.status==='new').length;
+  document.getElementById('content').innerHTML=`
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-icon si-o"><i class="fas fa-shopping-bag"></i></div><div class="stat-val">${allOrders.length}</div><div class="stat-lbl">Jami buyurtmalar</div></div>
+      <div class="stat-card"><div class="stat-icon si-g"><i class="fas fa-dollar-sign"></i></div><div class="stat-val">$${total.toLocaleString()}</div><div class="stat-lbl">Umumiy daromad</div></div>
+      <div class="stat-card"><div class="stat-icon si-b"><i class="fas fa-calendar-day"></i></div><div class="stat-val">${today}</div><div class="stat-lbl">Bugungi buyurtmalar</div></div>
+      <div class="stat-card"><div class="stat-icon si-p"><i class="fas fa-bell"></i></div><div class="stat-val">${newCnt}</div><div class="stat-lbl">Yangi (kutilmoqda)</div></div>
+    </div>
+    <div class="table-card">
+      <div class="th"><h2>So'nggi buyurtmalar</h2><button class="tb view" onclick="setPage('orders')"><i class="fas fa-list"></i> Barchasi</button></div>
+      ${renderTable(allOrders.slice(0,5))}
+    </div>`;
+}
+
+function renderOrders(){
+  document.getElementById('content').innerHTML=`
+    <div class="table-card">
+      <div class="th">
+        <h2>Barcha buyurtmalar <span style="color:var(--text2);font-weight:500">(${allOrders.length})</span></h2>
+        <div class="tf">
+          <input class="tfs" id="srch" placeholder="🔍 Qidirish..." oninput="filterOrders()" style="width:180px">
+          <select class="tfs" id="stFil" onchange="filterOrders()">
+            <option value="">Barcha holat</option>
+            <option value="new">Yangi</option>
+            <option value="processing">Jarayonda</option>
+            <option value="completed">Bajarildi</option>
+            <option value="cancelled">Bekor qilindi</option>
+          </select>
+        </div>
+      </div>
+      <div id="tblWrap">${renderTable(allOrders)}</div>
+    </div>`;
+}
+
+window.filterOrders = function(){
+  const q = (document.getElementById('srch')?.value||'').toLowerCase();
+  const st = document.getElementById('stFil')?.value||'';
+  let list = [...allOrders];
+  if(q) list = list.filter(o=>o.name?.toLowerCase().includes(q)||o.phone?.includes(q)||o.id?.toLowerCase().includes(q));
+  if(st) list = list.filter(o=>o.status===st);
+  document.getElementById('tblWrap').innerHTML = renderTable(list);
+};
+
+function renderTable(list){
+  if(!list.length) return `<div class="no-orders"><i class="fas fa-inbox"></i><p>Buyurtmalar topilmadi</p></div>`;
+  return `<table><thead><tr>
+    <th>Buyurtma #</th><th>Mijoz</th><th>Telefon</th><th>Jami</th><th>Yetkazish</th><th>Holat</th><th>Vaqt</th><th>Amallar</th>
+  </tr></thead><tbody>${list.map(o=>`<tr>
+    <td><strong>${o.id}</strong></td>
+    <td>${o.name}</td>
+    <td><a href="tel:${o.phone}" style="color:var(--primary)">${o.phone}</a></td>
+    <td><strong>$${o.total?.toLocaleString()}</strong></td>
+    <td>${DNAME[o.delivery]||o.delivery||'-'}</td>
+    <td><span class="sbadge ${o.status}"><i class="fas fa-circle" style="font-size:.45em"></i>${SNAME[o.status]||o.status}</span></td>
+    <td style="color:var(--text2);font-size:0.78rem">${o.time}</td>
+    <td><div class="ab">
+      <button class="tb view" onclick="viewOrder('${o.firebaseId}')"><i class="fas fa-eye"></i> Ko'rish</button>
+      <a class="tb call" href="tel:${o.phone}"><i class="fas fa-phone"></i></a>
+      <button class="tb del" onclick="delOrder('${o.firebaseId}','${o.id}')"><i class="fas fa-trash"></i></button>
+    </div></td>
+  </tr>`).join('')}</tbody></table>`;
+}
+
+window.viewOrder = function(fbId){
+  const o = allOrders.find(x=>x.firebaseId===fbId);
+  if(!o) return;
+  currentModalId = fbId;
+  document.getElementById('modalTitle').textContent = `Buyurtma ${o.id}`;
+  const prods = (o.items||[]).map(item=>`<div class="op">
+    <img src="https://placehold.co/50x50/111/ff6600?text=${encodeURIComponent(item.brand||'P')}" alt="${item.name}">
+    <div style="flex:1"><div class="op-name">${item.name}</div><div class="op-meta">×${item.qty} · $${item.price}</div></div>
+    <div class="op-price">$${(item.price*item.qty).toLocaleString()}</div>
+  </div>`).join('');
+  document.getElementById('modalBody').innerHTML=`
+    <div class="ms">
+      <h3>Mijoz</h3>
+      <div class="md"><span class="k">Ism</span><span class="v">${o.name}</span></div>
+      <div class="md"><span class="k">Telefon</span><span class="v"><a href="tel:${o.phone}" style="color:var(--primary)">${o.phone}</a></span></div>
+      <div class="md"><span class="k">E-mail</span><span class="v">${o.email}</span></div>
+      <div class="md"><span class="k">Manzil</span><span class="v">${o.address}</span></div>
+      ${o.comment?`<div class="md"><span class="k">Izoh</span><span class="v">${o.comment}</span></div>`:''}
+    </div>
+    <div class="ms">
+      <h3>Buyurtma</h3>
+      <div class="md"><span class="k">ID</span><span class="v">${o.id}</span></div>
+      <div class="md"><span class="k">Yetkazish</span><span class="v">${DNAME[o.delivery]||o.delivery}</span></div>
+      <div class="md"><span class="k">To'lov</span><span class="v">${PNAME[o.payment]||o.payment}</span></div>
+      <div class="md"><span class="k">Vaqt</span><span class="v">${o.time}</span></div>
+      <div class="md"><span class="k">Mahsulotlar</span><span class="v">$${o.subtotal?.toLocaleString()}</span></div>
+      <div class="md"><span class="k">Yetkazib berish</span><span class="v">${o.deliveryCost===0?'Bepul':'$'+o.deliveryCost}</span></div>
+      <div class="md"><span class="k">Umumiy</span><span class="v" style="color:var(--primary);font-weight:800">$${o.total?.toLocaleString()}</span></div>
+    </div>
+    <div class="ms">
+      <h3>Mahsulotlar</h3>
+      <div class="op-list">${prods||'<p style="color:var(--text2)">Maʼlumot yo\'q</p>'}</div>
+    </div>
+    <div class="ms">
+      <h3>Holat yangilash</h3>
+      <select class="status-sel" id="stSel">
+        <option value="new" ${o.status==='new'?'selected':''}>🆕 Yangi</option>
+        <option value="processing" ${o.status==='processing'?'selected':''}>⚙️ Jarayonda</option>
+        <option value="completed" ${o.status==='completed'?'selected':''}>✅ Bajarildi</option>
+        <option value="cancelled" ${o.status==='cancelled'?'selected':''}>❌ Bekor qilindi</option>
+      </select>
+    </div>`;
+  document.getElementById('saveBtn').onclick = saveStatus;
+  document.getElementById('orderModal').classList.add('open');
+};
+
+async function saveStatus(){
+  if(!currentModalId) return;
+  const newSt = document.getElementById('stSel').value;
+  try{
+    await updateDoc(doc(db,'orders',currentModalId),{status:newSt});
+    closeModal();
+    showNotif('✅ Yangilandi', `Holat: ${SNAME[newSt]}`);
+  }catch(e){ alert('Xato: '+e.message); }
+}
+
+window.delOrder = async function(fbId, orderId){
+  if(!confirm(`"${orderId}" buyurtmani o'chirmoqchimisiz?`)) return;
+  try{
+    await deleteDoc(doc(db,'orders',fbId));
+    showNotif("🗑️ O'chirildi", `Buyurtma ${orderId}`);
+  }catch(e){ alert('Xato: '+e.message); }
+};
+
+window.closeModal = function(){ document.getElementById('orderModal').classList.remove('open'); };
+document.getElementById('orderModal').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeModal(); });
+
+function showNotif(title, msg){
+  document.getElementById('notifT').textContent = title;
+  document.getElementById('notifM').textContent = msg;
+  const n = document.getElementById('notif');
+  n.classList.add('show');
+  clearTimeout(n._t);
+  n._t = setTimeout(()=>n.classList.remove('show'), 5000);
+}
+
+function playSound(){
+  try{
+    const ac = new AudioContext();
+    const osc = ac.createOscillator();
+    const g = ac.createGain();
+    osc.connect(g); g.connect(ac.destination);
+    osc.frequency.setValueAtTime(800, ac.currentTime);
+    osc.frequency.setValueAtTime(1000, ac.currentTime+0.15);
+    g.gain.setValueAtTime(0.3, ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime+0.5);
+    osc.start(ac.currentTime); osc.stop(ac.currentTime+0.5);
+  }catch(e){}
+}
+</script>
+</body>
+</html>

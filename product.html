@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahsulot - UyUchun</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--primary:#ff6600;--primary-dark:#cc5200;--bg:#0a0a0a;--bg2:#111111;--bg3:#1a1a1a;--bg4:#222222;--text:#f0f0f0;--text2:#aaaaaa;--border:#2a2a2a;--card:#161616;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px}
+header{background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.hdr{max-width:1300px;margin:0 auto;padding:0 20px;height:65px;display:flex;align-items:center;gap:14px}
+.logo{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,#ff6600,#ff9900);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer}
+.back-btn{color:var(--text2);font-size:0.9rem;cursor:pointer;padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;gap:8px;transition:all .2s}
+.back-btn:hover{color:var(--primary);border-color:var(--primary)}
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.cur-sel{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:0.85rem;outline:none;font-family:'Inter',sans-serif}
+.cart-btn{background:var(--primary);color:#fff;border:none;padding:9px 16px;border-radius:8px;font-size:0.88rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:7px;transition:background .2s}
+.cart-btn:hover{background:var(--primary-dark)}
+.cart-count{background:#fff;color:var(--primary);border-radius:50%;width:19px;height:19px;font-size:0.7rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+.breadcrumb{max-width:1300px;margin:16px auto;padding:0 20px;display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--text2)}
+.breadcrumb a{color:var(--text2);cursor:pointer;transition:color .2s}.breadcrumb a:hover{color:var(--primary)}
+.breadcrumb i{font-size:.6rem}
+.main{max-width:1300px;margin:0 auto;padding:0 20px 60px;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.gallery{display:flex;flex-direction:column;gap:12px}
+.main-img{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);aspect-ratio:1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.main-img img{max-width:80%;max-height:80%;object-fit:contain;transition:transform .3s}
+.main-img img:hover{transform:scale(1.05)}
+.thumbs{display:flex;gap:8px}
+.thumb{background:var(--card);border:2px solid var(--border);border-radius:8px;width:70px;height:70px;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;transition:border-color .2s;flex-shrink:0}
+.thumb img{max-width:80%;max-height:80%;object-fit:contain}
+.thumb.active,.thumb:hover{border-color:var(--primary)}
+.product-info{display:flex;flex-direction:column;gap:16px}
+.prod-brand{font-size:0.8rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1px}
+.prod-name{font-size:1.8rem;font-weight:800;line-height:1.2}
+.rating-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.stars{display:flex;gap:3px}.stars i{color:#ffaa00;font-size:0.85rem}.stars i.empty{color:var(--border)}
+.rating-num{font-weight:700}.rating-count{color:var(--text2);font-size:0.85rem}
+.badges{display:flex;gap:8px;flex-wrap:wrap}
+.badge{padding:5px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;display:flex;align-items:center;gap:5px}
+.badge.green{background:rgba(0,200,83,0.15);color:#00c853}
+.badge.orange{background:rgba(255,102,0,0.15);color:var(--primary)}
+.badge.gray{background:var(--bg3);color:var(--text2)}
+.price-section{display:flex;align-items:center;gap:14px}
+.big-price{font-size:2.2rem;font-weight:800;color:var(--primary)}
+.original-price{font-size:1.1rem;color:var(--text2);text-decoration:line-through}
+.desc-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px}
+.desc-box h3{font-size:0.85rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.desc-box p{font-size:0.9rem;color:var(--text2);line-height:1.6}
+.qty-section{display:flex;align-items:center;gap:14px}
+.qty-label{font-weight:600;font-size:0.9rem}
+.qty-ctrl{display:flex;align-items:center;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.qty-ctrl button{background:var(--bg3);color:var(--text);border:none;width:38px;height:38px;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.qty-ctrl button:hover{background:var(--primary);color:#fff}
+.qty-ctrl span{width:44px;text-align:center;font-weight:800;font-size:1rem;background:var(--bg4);height:38px;display:flex;align-items:center;justify-content:center}
+.action-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn-add{background:var(--primary);color:#fff;border:none;padding:14px;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s}
+.btn-add:hover{background:var(--primary-dark);transform:translateY(-1px)}
+.btn-add:disabled{background:var(--bg4);color:var(--text2);cursor:not-allowed;transform:none}
+.btn-buy{background:transparent;color:var(--primary);border:2px solid var(--primary);padding:14px;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s}
+.btn-buy:hover{background:var(--primary);color:#fff;transform:translateY(-1px)}
+.spec-table{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.spec-table h3{padding:14px 18px;font-size:0.95rem;font-weight:700;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.spec-row{display:flex;border-bottom:1px solid var(--border)}
+.spec-row:last-child{border-bottom:none}
+.spec-key{width:45%;padding:11px 18px;font-size:0.85rem;color:var(--text2);font-weight:500;background:var(--bg3)}
+.spec-val{flex:1;padding:11px 18px;font-size:0.85rem;font-weight:600}
+.similar-section{max-width:1300px;margin:0 auto;padding:0 20px 60px}
+.similar-section h2{font-size:1.3rem;font-weight:800;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.similar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.product-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .2s}
+.product-card:hover{border-color:var(--primary);transform:translateY(-3px)}
+.product-card .img{aspect-ratio:1;background:var(--bg3);display:flex;align-items:center;justify-content:center}
+.product-card .img img{max-width:75%;max-height:75%;object-fit:contain}
+.product-card .info{padding:12px}
+.product-card .brand{font-size:0.7rem;color:var(--primary);font-weight:700;text-transform:uppercase;margin-bottom:3px}
+.product-card .name{font-size:0.83rem;font-weight:700;margin-bottom:5px}
+.product-card .price{font-size:0.95rem;font-weight:800;color:var(--primary)}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid var(--primary);border-radius:12px;padding:14px 18px;z-index:9999;transform:translateX(120%);transition:transform .4s cubic-bezier(.68,-.55,.265,1.55);max-width:300px}
+.toast.show{transform:translateX(0)}
+.toast-title{font-weight:700;font-size:0.9rem;margin-bottom:3px}
+.toast-msg{font-size:0.8rem;color:var(--text2)}
+#productPage{display:contents}
+@media(max-width:768px){.main{grid-template-columns:1fr}.action-btns{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr">
+    <div class="logo" onclick="location.href='index.html'">⚡ UyUchun</div>
+    <div class="back-btn" onclick="location.href='index.html'"><i class="fas fa-arrow-left"></i> Orqaga</div>
+    <div class="hdr-right">
+      <select class="cur-sel" id="currencySelect" onchange="changeCurrency(this.value)">
+        <option value="USD">$ USD</option><option value="EUR">€ EUR</option>
+        <option value="RUB">₽ RUB</option><option value="KZT">₸ KZT</option>
+        <option value="UZS">soʻm UZS</option>
+      </select>
+      <button class="cart-btn" onclick="location.href='cart.html'">
+        <i class="fas fa-shopping-cart"></i> Savat
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="breadcrumb">
+  <a onclick="location.href='index.html'"><i class="fas fa-home"></i></a>
+  <i class="fas fa-chevron-right"></i>
+  <a onclick="location.href='index.html'">Do'kon</a>
+  <i class="fas fa-chevron-right"></i>
+  <span id="breadProduct">Mahsulot</span>
+</div>
+
+<div class="main" id="productPage"></div>
+
+<div class="similar-section">
+  <h2><i class="fas fa-th-large" style="color:var(--primary)"></i> O'xshash mahsulotlar</h2>
+  <div class="similar-grid" id="similarGrid"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PRODUCTS=[
+{id:1,name:"iPhone 15 Pro Max",category:"smartphones",brand:"Apple",price:1299,rating:4.9,stock:15,image:"https://placehold.co/600x600/111/ff6600?text=iPhone+15+Pro",description:"A17 Pro chip, titanium korpus, 48MP kamera tizimi, USB-C. Eng zamonaviy iPhone.",specs:{Displey:'6.7" Super Retina XDR OLED',Protsessor:"A17 Pro 3nm",RAM:"8GB",Xotira:"256GB / 512GB / 1TB",Kamera:"48MP + 12MP + 12MP",Batareya:"4422 mAh",OS:"iOS 17",5G:"Ha"}},
+{id:2,name:"Samsung Galaxy S24 Ultra",category:"smartphones",brand:"Samsung",price:1199,rating:4.8,stock:20,image:"https://placehold.co/600x600/111/ff6600?text=Galaxy+S24+Ultra",description:"200MP kamera, S Pen qo'shilgan, titanium ramka, AI xususiyatlari.",specs:{Displey:'6.8" QHD+ AMOLED 120Hz',Protsessor:"Snapdragon 8 Gen 3",RAM:"12GB",Xotira:"256GB / 512GB",Kamera:"200MP + 12MP + 50MP + 10MP",Batareya:"5000 mAh",OS:"Android 14, One UI 6",5G:"Ha"}},
+{id:3,name:"Xiaomi 14 Pro",category:"smartphones",brand:"Xiaomi",price:899,rating:4.7,stock:18,image:"https://placehold.co/600x600/111/ff6600?text=Xiaomi+14+Pro",description:"Leica kamerasi, Snapdragon 8 Gen 3, 120W tez zaryadlash.",specs:{Displey:'6.73" LTPO AMOLED 120Hz',Protsessor:"Snapdragon 8 Gen 3",RAM:"12GB",Xotira:"256GB / 512GB",Kamera:"50MP Leica + 50MP + 50MP",Batareya:"4880 mAh",OS:"Android 14, HyperOS"}},
+{id:4,name:"OnePlus 12",category:"smartphones",brand:"OnePlus",price:799,rating:4.6,stock:12,image:"https://placehold.co/600x600/111/ff6600?text=OnePlus+12",description:"Hasselblad kamerasi, 100W tez zaryadlash, OxygenOS.",specs:{Displey:'6.82" LTPO AMOLED 120Hz',Protsessor:"Snapdragon 8 Gen 3",RAM:"12GB / 16GB",Xotira:"256GB / 512GB",Kamera:"50MP Hasselblad + 48MP + 64MP",Batareya:"5400 mAh",OS:"Android 14, OxygenOS 14"}},
+{id:5,name:"Google Pixel 8 Pro",category:"smartphones",brand:"Google",price:999,rating:4.7,stock:10,image:"https://placehold.co/600x600/111/ff6600?text=Pixel+8+Pro",description:"Google Tensor G3, AI funksiyalari, 7 yil yangilanish kafolati.",specs:{Displey:'6.7" LTPO OLED 120Hz',Protsessor:"Google Tensor G3",RAM:"12GB",Xotira:"128GB / 256GB / 1TB",Kamera:"50MP + 48MP + 48MP",Batareya:"5050 mAh",OS:"Android 14",AI:"Google AI funksiyalari"}},
+{id:6,name:"Samsung Galaxy A54",category:"smartphones",brand:"Samsung",price:449,rating:4.4,stock:30,image:"https://placehold.co/600x600/111/ff6600?text=Galaxy+A54",description:"50MP kamera, 5000 mAh batareya, IP67 suv himoyasi.",specs:{Displey:'6.4" Super AMOLED 120Hz',Protsessor:"Exynos 1380",RAM:"8GB",Xotira:"128GB / 256GB",Kamera:"50MP + 12MP + 5MP",Batareya:"5000 mAh",OS:"Android 14",IP:"IP67"}},
+{id:7,name:"Xiaomi Redmi Note 13 Pro",category:"smartphones",brand:"Xiaomi",price:349,rating:4.5,stock:40,image:"https://placehold.co/600x600/111/ff6600?text=Redmi+Note+13",description:"200MP kamera, 67W zaryadlash, AMOLED ekran.",specs:{Displey:'6.67" AMOLED 120Hz',Protsessor:"Snapdragon 7s Gen 2",RAM:"8GB / 12GB",Xotira:"256GB",Kamera:"200MP + 8MP + 2MP",Batareya:"5100 mAh",OS:"Android 13"}},
+{id:8,name:"Apple Watch Series 9",category:"smartphones",brand:"Apple",price:399,rating:4.8,stock:22,image:"https://placehold.co/600x600/111/ff6600?text=Apple+Watch+9",description:"S9 chip, Double Tap funksiyasi, 18 soat batareya.",specs:{Displey:"45mm Always-On Retina",Chip:"S9 SiP",Sog'liq:"Yurak ritmi, ECG, SpO2",GPS:"Ha",Suv:"50m",Batareya:"18 soat",OS:"watchOS 10"}},
+{id:9,name:"Samsung Galaxy Tab S9 Ultra",category:"smartphones",brand:"Samsung",price:1099,rating:4.8,stock:7,image:"https://placehold.co/600x600/111/ff6600?text=Tab+S9+Ultra",description:"14.6 dyuym AMOLED, S Pen qo'shilgan, DeX rejimi.",specs:{Displey:'14.6" Dynamic AMOLED 120Hz',Protsessor:"Snapdragon 8 Gen 2",RAM:"12GB / 16GB",Xotira:"256GB / 512GB",Kamera:"13MP + 8MP",Batareya:"11200 mAh",OS:"Android 13"}},
+{id:10,name:'iPad Pro 12.9" M2',category:"smartphones",brand:"Apple",price:1099,rating:4.9,stock:9,image:"https://placehold.co/600x600/111/ff6600?text=iPad+Pro+M2",description:"M2 chip, miniLED Liquid Retina XDR, ProMotion 120Hz.",specs:{Displey:'12.9" Liquid Retina XDR miniLED',Chip:"M2",RAM:"8GB / 16GB",Xotira:"128GB – 2TB",Kamera:"12MP + 10MP",Batareya:"10541 mAh 10 soat",OS:"iPadOS 16"}},
+{id:11,name:"Sony WH-1000XM5",category:"smartphones",brand:"Sony",price:349,rating:4.8,stock:22,image:"https://placehold.co/600x600/111/ff6600?text=WH-1000XM5",description:"Eng yaxshi shovqin o'chirgich, 30 soat batareya, Multipoint.",specs:{Tur:"Simsiz over-ear",Shovqin:"Ikki protsessor ANC",Batareya:"30 soat",Zaryadlash:"3 soat to'liq / 3 min = 3 soat",Kodek:"LDAC, AAC, SBC",Bluetooth:"5.2",Og'irlik:"250g"}},
+{id:12,name:"Apple AirPods Pro 2",category:"smartphones",brand:"Apple",price:249,rating:4.8,stock:30,image:"https://placehold.co/600x600/111/ff6600?text=AirPods+Pro+2",description:"H2 chip, adaptiv ANC, Personalized Spatial Audio.",specs:{Tur:"Simsiz quloqchalar",Chip:"H2",ANC:"Adaptiv ANC",Batareya:"6 soat (30 soat quti bilan)",Sog'liq:"Eshitish sog'ligi",Bluetooth:"5.3",Su himoya:"IPX4"}},
+{id:13,name:"Samsung Galaxy Buds2 Pro",category:"smartphones",brand:"Samsung",price:199,rating:4.6,stock:25,image:"https://placehold.co/600x600/111/ff6600?text=Buds2+Pro",description:"360 audio, Intelligent ANC, 360° ses.",specs:{Tur:"Simsiz quloqchalar",ANC:"Intelligent ANC",Batareya:"5 soat (18 soat quti bilan)",Bluetooth:"5.3",Audio:"360 Audio, Hi-Fi",Su himoya:"IPX7",Og'irlik:"5.5g"}},
+{id:14,name:"Bose QuietComfort 45",category:"smartphones",brand:"Bose",price:279,rating:4.7,stock:18,image:"https://placehold.co/600x600/111/ff6600?text=Bose+QC45",description:"Dunyodagi eng yaxshi ANC, yumshoq quloq yostiqchalari, 24 soat.",specs:{Tur:"Simsiz over-ear",ANC:"TriPort + MEMS ANC",Batareya:"24 soat",Bluetooth:"5.1",Ses:"TriPort akustik",Zaryadlash:"USB-C 2.5 soat",Og'irlik:"238g"}},
+{id:15,name:"Xiaomi Smart Band 8",category:"smartphones",brand:"Xiaomi",price:49,rating:4.5,stock:50,image:"https://placehold.co/600x600/111/ff6600?text=Mi+Band+8",description:"16 kunlik batareya, 150+ sport turi, AMOLED displey.",specs:{Displey:'1.62" AMOLED',Batareya:"16 kun",Sport:"150+ tur",Sensorlar:"PPG, SpO2, Akselerometr",Su himoya:"5 ATM",Bluetooth:"5.3",Og'irlik:"25g"}},
+{id:16,name:"Garmin Fenix 7 Pro",category:"smartphones",brand:"Garmin",price:699,rating:4.8,stock:8,image:"https://placehold.co/600x600/111/ff6600?text=Fenix+7+Pro",description:"22 kunlik batareya, multisport, LED yorug'ligi, xaritalar.",specs:{Displey:"1.3 dyuym MIP",Batareya:"22 kun (GPS bilan 57 soat)",GPS:"GPS+GLONASS+Galileo",Sog'liq:"HRV, SpO2, BodyBattery",Su himoya:"10 ATM MIL-STD",Og'irlik:"73g",Xarita:"TopoActive"}},
+{id:17,name:"Anker 65W GaN Zaryadlovchi",category:"smartphones",brand:"Anker",price:39,rating:4.7,stock:60,image:"https://placehold.co/600x600/111/ff6600?text=Anker+65W",description:"65W GaN, 3 port (2 USB-C + 1 USB-A), kichik o'lcham.",specs:{Quvvat:"65W",Portlar:"2× USB-C, 1× USB-A",Texnologiya:"GaN II",Protokollar:"PD 3.0, QC 4+",O'lcham:"59×28×28mm",Sertifikat:"CE, FCC, RoHS",Og'irlik:"111g"}},
+{id:18,name:'MacBook Pro 14" M3',category:"laptops",brand:"Apple",price:1999,rating:4.9,stock:8,image:"https://placehold.co/600x600/111/ff6600?text=MacBook+Pro+M3",description:"M3 chip, 22 soat batareya, Liquid Retina XDR displey.",specs:{Displey:'14.2" Liquid Retina XDR',Chip:"Apple M3",RAM:"8GB / 18GB / 36GB",Xotira:"512GB – 4TB SSD",GPU:"10-yadroli",Batareya:"22 soat",Og'irlik:"1.55 kg"}},
+{id:19,name:"Dell XPS 15",category:"laptops",brand:"Dell",price:1799,rating:4.7,stock:6,image:"https://placehold.co/600x600/111/ff6600?text=Dell+XPS+15",description:"OLED 3.5K displey, Intel Core i7-13700H, RTX 4060.",specs:{Displey:'15.6" OLED 3.5K 60Hz',Protsessor:"Intel Core i7-13700H",RAM:"16GB DDR5",Xotira:"512GB NVMe SSD",GPU:"NVIDIA RTX 4060 8GB",Batareya:"86Wh 13 soat",Og'irlik:"1.86 kg"}},
+{id:20,name:"ASUS ROG Zephyrus G14",category:"laptops",brand:"ASUS",price:1499,rating:4.8,stock:10,image:"https://placehold.co/600x600/111/ff6600?text=ROG+G14",description:"Ryzen 9 7940HS, RTX 4060, QHD+ 165Hz, 2.2 kg yengil gaming.",specs:{Displey:'14" QHD+ 165Hz',Protsessor:"AMD Ryzen 9 7940HS",RAM:"16GB DDR5",Xotira:"1TB NVMe SSD",GPU:"NVIDIA RTX 4060 8GB",Batareya:"76Wh 10 soat",Og'irlik:"2.2 kg"}},
+{id:21,name:"Lenovo ThinkPad X1 Carbon",category:"laptops",brand:"Lenovo",price:1599,rating:4.7,stock:7,image:"https://placehold.co/600x600/111/ff6600?text=ThinkPad+X1",description:"1.12 kg ultrabook, Intel Core i7-1365U, 15 soat batareya.",specs:{Displey:'14" IPS 2K 60Hz',Protsessor:"Intel Core i7-1365U",RAM:"16GB LPDDR5",Xotira:"512GB NVMe",GPU:"Intel Iris Xe",Batareya:"57Wh 15 soat",Og'irlik:"1.12 kg"}},
+{id:22,name:"HP Spectre x360",category:"laptops",brand:"HP",price:1399,rating:4.6,stock:9,image:"https://placehold.co/600x600/111/ff6600?text=HP+Spectre",description:"360° bukiluvchan OLED 2.8K, Intel Evo platformasi.",specs:{Displey:'13.5" OLED 2.8K 60Hz',Protsessor:"Intel Core i7-1335U Evo",RAM:"16GB LPDDR5",Xotira:"512GB NVMe",GPU:"Intel Iris Xe",Batareya:"66Wh 17 soat",Og'irlik:"1.36 kg"}},
+{id:23,name:"ASUS VivoBook 15 OLED",category:"laptops",brand:"ASUS",price:799,rating:4.5,stock:14,image:"https://placehold.co/600x600/111/ff6600?text=VivoBook+15",description:"2.8K OLED, Ryzen 5 7530U, yengil va arzon narxda.",specs:{Displey:'15.6" OLED 2.8K 120Hz',Protsessor:"AMD Ryzen 5 7530U",RAM:"16GB DDR4",Xotira:"512GB SSD",GPU:"AMD Radeon",Batareya:"50Wh 8 soat",Og'irlik:"1.65 kg"}},
+{id:24,name:"Lenovo IdeaPad 3",category:"laptops",brand:"Lenovo",price:599,rating:4.3,stock:20,image:"https://placehold.co/600x600/111/ff6600?text=IdeaPad+3",description:"Arzon, ishonchli, kunlik foydalanish uchun.",specs:{Displey:'15.6" FHD IPS 60Hz',Protsessor:"AMD Ryzen 5 7520U",RAM:"8GB DDR5",Xotira:"512GB SSD",GPU:"AMD Radeon 610M",Batareya:"45Wh 8 soat",Og'irlik:"1.65 kg"}},
+{id:25,name:"MSI Titan GT77",category:"laptops",brand:"MSI",price:2999,rating:4.7,stock:3,image:"https://placehold.co/600x600/111/ff6600?text=MSI+Titan",description:"i9-13980HX, RTX 4090, 4K Mini-LED, eng kuchli gaming laptop.",specs:{Displey:'17.3" 4K Mini-LED 144Hz',Protsessor:"Intel Core i9-13980HX",RAM:"64GB DDR5",Xotira:"2TB NVMe RAID",GPU:"NVIDIA RTX 4090 16GB",Batareya:"99.9Wh",Og'irlik:"3.3 kg"}},
+{id:26,name:"Razer DeathAdder V3",category:"laptops",brand:"Razer",price:79,rating:4.7,stock:30,image:"https://placehold.co/600x600/111/ff6600?text=DeathAdder+V3",description:"30K DPI sensor, 59g yengil, Focus Pro optik sensor.",specs:{Sensor:"Focus Pro 30K DPI",DPI:"100–30000",Tugmalar:"6",Ovoz chiqishi:"1.2ms < 4kHz",Batareya:"Yo'q (simli)",Kabel:"1.8m SpeedFlex",Og'irlik:"59g"}},
+{id:27,name:"Logitech MX Master 3S",category:"laptops",brand:"Logitech",price:99,rating:4.8,stock:25,image:"https://placehold.co/600x600/111/ff6600?text=MX+Master+3S",description:"8K DPI, magnit g'ildirak, Bluetooth 3 qurilma, USB-C.",specs:{Sensor:"Darkfield 8K DPI",DPI:"200–8000",G'ildirak:"MagSpeed magnit",Qurilmalar:"3 ta Bluetooth/Unify",Batareya:"70 kun",Ulanish:"USB-C + Unify",Og'irlik:"141g"}},
+{id:28,name:'Samsung Odyssey G7 27"',category:"laptops",brand:"Samsung",price:499,rating:4.7,stock:12,image:"https://placehold.co/600x600/111/ff6600?text=Odyssey+G7",description:"1000R eğrilik, QLED 240Hz, WQHD, 1ms.",specs:{Displey:'27" Curved QLED WQHD',Yangilanish:"240Hz",Javob:"1ms GTG",Eğrilik:"1000R VA",HDR:"DisplayHDR 600",Ulanish:"HDMI 2.0, DP 1.4",Og'irlik:"6.3 kg"}},
+{id:29,name:'LG UltraFine 32" 4K',category:"laptops",brand:"LG",price:699,rating:4.6,stock:8,image:"https://placehold.co/600x600/111/ff6600?text=LG+UltraFine",description:"4K IPS, USB-C 96W, 98% P3, Mac/Windows uchun.",specs:{Displey:'32" IPS 4K UHD',Yangilanish:"60Hz",Ranglar:"98% DCI-P3",USB_C:"96W Thunderbolt 4",Ulanish:"USB-C, HDMI 2.0, DP 1.4",Gaplashish:"Ha (stereo)",Og'irlik:"7.2 kg"}},
+{id:30,name:"WD My Passport 4TB",category:"laptops",brand:"WD",price:99,rating:4.5,stock:40,image:"https://placehold.co/600x600/111/ff6600?text=WD+4TB",description:"4TB ko'chma disk, USB-C, parol himoyasi.",specs:{Sig'im:"4TB",Interfeys:"USB 3.2 Gen 1 (USB-C)",Tezlik:"130 MB/s o'qish",Shifrlash:"256-bit AES",Mos:"Win + Mac",Kafolat:"3 yil",Og'irlik:"193g"}},
+{id:31,name:"Samsung 980 Pro 2TB",category:"laptops",brand:"Samsung",price:149,rating:4.8,stock:28,image:"https://placehold.co/600x600/111/ff6600?text=980+Pro+2TB",description:"NVMe PCIe 4.0, 7000 MB/s o'qish, PS5 uchun.",specs:{Sig'im:"2TB",Interfeys:"PCIe 4.0 NVMe M.2",O_qish:"7000 MB/s",Yozish:"5100 MB/s",NAND:"Samsung V-NAND MLC",Sovutish:"Nichrome sinusoidal issiqlik yutgich",Kafolat:"5 yil"}},
+{id:32,name:'Samsung 65" QLED Q80C',category:"tvs",brand:"Samsung",price:1299,rating:4.8,stock:5,image:"https://placehold.co/600x600/111/ff6600?text=QLED+Q80C",description:"Neo QLED 4K, 120Hz, Object Tracking Sound, Gaming Hub.",specs:{Panel:'65" QLED 4K 120Hz',Protsessor:"NQ4 AI Gen2",HDR:"HDR10+",Ses:"60W Object Tracking Sound",Smart:"Tizen OS",Portlar:"HDMI 2.1×4",Gaming:"Game Bar 4K@144Hz"}},
+{id:33,name:'LG OLED C3 55"',category:"tvs",brand:"LG",price:1599,rating:4.9,stock:4,image:"https://placehold.co/600x600/111/ff6600?text=LG+OLED+C3",description:"Mukammal qora rang, α9 Gen6 AI, Dolby Vision + Atmos.",specs:{Panel:'55" OLED evo 4K 120Hz',Protsessor:"α9 Gen6 AI",HDR:"Dolby Vision IQ + HDR10",Ses:"60W Dolby Atmos",Smart:"webOS 23",Portlar:"HDMI 2.1×4",Kafolat:"Ekran 5 yil"}},
+{id:34,name:'Sony Bravia A80L 65"',category:"tvs",brand:"Sony",price:1799,rating:4.8,stock:3,image:"https://placehold.co/600x600/111/ff6600?text=Sony+A80L",description:"XR OLED panel, Acoustic Surface Audio+, Google TV.",specs:{Panel:'65" OLED 4K 120Hz',Protsessor:"Cognitive Processor XR",HDR:"Dolby Vision + XR Contrast",Ses:"80W Acoustic Surface Audio+",Smart:"Google TV",Portlar:"HDMI 2.1×2, HDMI 2.0×2",PS5:"Bepul Bravia Core"}},
+{id:35,name:'TCL 55" Mini-LED QLED',category:"tvs",brand:"TCL",price:699,rating:4.5,stock:10,image:"https://placehold.co/600x600/111/ff6600?text=TCL+55",description:"Mini-LED 1000 zona, 4K QLED, Google TV, AiPQ.",specs:{Panel:'55" QLED 4K 144Hz Mini-LED',Zonalar:"1000+ dimming zone",HDR:"HDR10+ Pro",Ses:"40W Dolby Atmos",Smart:"Google TV",Portlar:"HDMI 2.1×2",AiPQ:"AI Picture Quality Engine"}},
+{id:36,name:'Hisense 75" ULED U8K',category:"tvs",brand:"Hisense",price:899,rating:4.5,stock:6,image:"https://placehold.co/600x600/111/ff6600?text=Hisense+75",description:"Mini-LED 2000 nit, ULED 4K, 144Hz, IMAX Enhanced.",specs:{Panel:'75" ULED 4K 144Hz Mini-LED',Yorqinlik:"2000 nit",HDR:"IMAX Enhanced, Dolby Vision",Ses:"60W Dolby Atmos",Smart:"VIDAA U7",Portlar:"HDMI 2.1×3",VRR:"AMD FreeSync Premium"}},
+{id:37,name:"Samsung HW-Q990C Soundbar",category:"tvs",brand:"Samsung",price:799,rating:4.7,stock:8,image:"https://placehold.co/600x600/111/ff6600?text=Q990C+Bar",description:"11.1.4 kanal, 656W, wireless subwoofer va rear speakers.",specs:{Kanallar:"11.1.4",Quvvat:"656W",Atmos:"Dolby Atmos + DTS:X",Simsiz:"Rear + Subwoofer",Ulanish:"HDMI eARC",Bluetooth:"Ha",O'lcham:"1.23m uzunlik"}},
+{id:38,name:"LG WashTower",category:"appliances",brand:"LG",price:1999,rating:4.8,stock:3,image:"https://placehold.co/600x600/111/ff6600?text=LG+WashTower",description:"Kir yuvish + quritish 2-in-1, AI DD texnologiyasi, ThinQ.",specs:{Yuvish:"5 kg Front Load",Quritish:"4 kg kondenser",Texnologiya:"AI DD Motor",Dastur:"22+ yuvish dasturi",Smart:"Wi-Fi ThinQ",Shovqin:"44 dB",Energiya:"A+++"}},
+{id:39,name:"Samsung Family Hub Muzlatgich",category:"appliances",brand:"Samsung",price:1499,rating:4.7,stock:5,image:"https://placehold.co/600x600/111/ff6600?text=Family+Hub",description:"21.5\" sensorli ekran, ichki kamera, SmartThings.",specs:{Sig'im:"635L",Ekran:'21.5" sensorli',Kamera:"Ichki 3 kamera",Smart:"SmartThings + Alexa",Energiya:"A++",Shovqin:"37 dB",Yil:"2023"}},
+{id:40,name:"Bosch Kir Yuvish Mashinasi",category:"appliances",brand:"Bosch",price:699,rating:4.6,stock:12,image:"https://placehold.co/600x600/111/ff6600?text=Bosch+Washer",description:"9 kg yuk, 1400 ayl/daqiqa, i-Dos avtomatik dozalash.",specs:{Yuklanish:"9 kg",Chastota:"1400 ayl/daqiqa",Texnologiya:"i-Dos + ActiveWater Plus",Dastur:"15+ dastur",Shovqin:"48 dB",Energiya:"A+++",EcoSilence:"Ha"}},
+{id:41,name:"Dyson V15 Detect",category:"appliances",brand:"Dyson",price:699,rating:4.8,stock:15,image:"https://placehold.co/600x600/111/ff6600?text=Dyson+V15",description:"Lazer toʻz aniqlash, 60 daqiqa ishlash, HEPA filtri.",specs:{Motor:"Dyson Hyperdymium 240AW",Batareya:"60 daqiqa",Filtr:"HEPA H13",Lazer:"Slim Fluffy lazer boshi",LCD:"Ekran",Og'irlik:"3.1 kg",Sig'im:"0.76L"}},
+{id:42,name:"iRobot Roomba j7+",category:"appliances",brand:"iRobot",price:599,rating:4.7,stock:10,image:"https://placehold.co/600x600/111/ff6600?text=Roomba+j7",description:"Avtomatik to'ldirgich, PrecisionVision, IMPRINT xarita.",specs:{Navigatsiya:"PrecisionVision AI",Avoidance:"Uy hayvonlari if'los, kabellar",Xarita:"IMPRINT Smart",Tozalash:"60 kun avtomatik",Suv:"Braava Jet kombinatsiya",WiFi:"Ha",Batareya:"75 daqiqa"}},
+{id:43,name:"Xiaomi Robot Changyutgich S10+",category:"appliances",brand:"Xiaomi",price:299,rating:4.5,stock:20,image:"https://placehold.co/600x600/111/ff6600?text=Xiaomi+S10",description:"LDS lazer navigatsiya, 4000 Pa so'rish, lavabo.",specs:{Navigatsiya:"LDS Lazer",So_rish:"4000 Pa",Batareya:"5200mAh 180 daqiqa",Filtr:"Washable HEPA E11",Lavabo:"250 ml rezervuar",Xarita:"Multi-floor",WiFi:"Mi Home + Alexa"}},
+{id:44,name:"Miele Idish Yuvish Mashinasi",category:"appliances",brand:"Miele",price:1299,rating:4.9,stock:4,image:"https://placehold.co/600x600/111/ff6600?text=Miele+G7600",description:"AutoDos kristal tuz, quritish 3D+, 14 to'plam.",specs:{Sig'im:"14 to'plam",Texnologiya:"AutoDos + QuickIntenseWash",Quritish:"3D PerfectDry",Shovqin:"41 dB",Energiya:"A+++",WiFi:"Miele@home",Kafolat:"20 yil motor"}},
+{id:45,name:"Haier 500L Muzlatgich",category:"appliances",brand:"Haier",price:799,rating:4.4,stock:8,image:"https://placehold.co/600x600/111/ff6600?text=Haier+500L",description:"500L no-frost, Total No Frost, Antibacterial Fresh Zone.",specs:{Sig'im:"500L (341+159)",Texnologiya:"Total No Frost",Zona:"Antibacterial Fresh Zone",Shovqin:"40 dB",Energiya:"A++",Ko'rinish:"Inox",Kafolat:"3 yil"}},
+{id:46,name:"Philips Hue Boshlang'ich To'plam",category:"appliances",brand:"Philips",price:149,rating:4.4,stock:35,image:"https://placehold.co/600x600/111/ff6600?text=Philips+Hue",description:"3 E27 rangli lampa + Hue Bridge, 16M rang, Alexa.",specs:{To_plam:"3 lampa + Bridge",Quvvat:"9W (75W ekvivalent)",Ranglar:"16 million",Lyumen:"800 lm har biri",Protokol:"Zigbee 3.0",Ovoz:"Alexa + Google + HomeKit",Amal:"25000 soat"}},
+{id:47,name:"Nespresso Vertuo Next",category:"kitchen",brand:"Nespresso",price:199,rating:4.6,stock:25,image:"https://placehold.co/600x600/111/ff6600?text=Nespresso",description:"Centrifusion texnologiyasi, 5 ta kapsul o'lchami, bluetooth.",specs:{Bosim:"19 bar",Isitish:"30 soniya",Hajmlar:"40-535 ml",Kapsul:"5 tur",Bluetooth:"Ha",Su tanki:"1.1L",Energiya:"1500W"}},
+{id:48,name:"KitchenAid Artisan Mikseri",category:"kitchen",brand:"KitchenAid",price:499,rating:4.9,stock:8,image:"https://placehold.co/600x600/111/ff6600?text=KitchenAid",description:"4.8L tekshirish idishi, 10 tezlik, 3 ta qo'shimcha.",specs:{Sig'im:"4.8L (6 porsiya)",Motor:"275W direct drive",Tezliklar:"10",Qo'shimchalar:"Whisk, kancak, qoʻl",Ranglar:"50+ rang varianti",Kafolat:"5 yil",Og'irlik:"11.3 kg"}},
+{id:49,name:"Ninja Foodi 9-in-1",category:"kitchen",brand:"Ninja",price:299,rating:4.7,stock:18,image:"https://placehold.co/600x600/111/ff6600?text=Ninja+Foodi",description:"Bosimli pishirgich + havo fritüzü, 9 funksiya.",specs:{Funksiyalar:"9 (boʻg'lash, qovurish, quritish...)",Hajm:"6.5L",Bosim:"15 PSI",Quvvat:"1760W",Dastur:"21 ta oldindan belgilangan",Sig'im:"4L fryer basket",Og'irlik:"8 kg"}},
+{id:50,name:"Philips Airfryer XXL",category:"kitchen",brand:"Philips",price:249,rating:4.5,stock:20,image:"https://placehold.co/600x600/111/ff6600?text=AirFryer+XXL",description:"7.3L, 1.4 kg ovqat bir vaqtda, Rapid Air texnologiyasi.",specs:{Sig'im:"7.3L / 1.4 kg",Texnologiya:"TurboStar + Rapid Air",Quvvat:"2225W",Harorat:"80-200°C",Ekran:"Raqamli",Apparat:"iPhone/Android",Og'irlik:"7.6 kg"}},
+{id:51,name:"Instant Pot Duo 7-in-1",category:"kitchen",brand:"Instant Pot",price:99,rating:4.6,stock:35,image:"https://placehold.co/600x600/111/ff6600?text=Instant+Pot",description:"Bosimli pishirgich, sekin pishirgich, guruch, bug' va boshqalar.",specs:{Funksiyalar:"7-in-1",Hajm:"5.7L",Bosim:"10-12 PSI",Quvvat:"1000W",Dasturlar:"13 SmartProgram",Xavfsizlik:"10 ta xavfsizlik tizimi",Kafolat:"3 yil"}},
+{id:52,name:"Bosch Serie 8 Pech",category:"kitchen",brand:"Bosch",price:899,rating:4.8,stock:5,image:"https://placehold.co/600x600/111/ff6600?text=Bosch+Oven",description:"71L, PerfectRoast sensor, PerfectBake zond.",specs:{Sig'im:"71L",Funktsiyalar:"13 rejim",Quvvat:"3600W",PerfectBake:"Harorat zond",Ekran:"TFT displey",Tozalash:"Tozalash Pyrolysis",Energiya:"A+"}},
+{id:53,name:"Electrolux Induksion Plitasi",category:"kitchen",brand:"Electrolux",price:599,rating:4.6,stock:7,image:"https://placehold.co/600x600/111/ff6600?text=Induction",description:"4 zona FlexBridge, 7400W, EasySlider boshqaruv.",specs:{Zonalar:"4 + FlexZone",Quvvat:"7400W",Bridge:"Ha",Boshqaruv:"EasySlider sensorli",Taymer:"Har zona uchun",O'lcham:"590×520×50mm",Kafolat:"2 yil"}},
+{id:54,name:"Vitamix 5200 Blenderi",category:"kitchen",brand:"Vitamix",price:449,rating:4.8,stock:10,image:"https://placehold.co/600x600/111/ff6600?text=Vitamix+5200",description:"2 ot kuchli motor, 30 soniyada o'z-o'zini tozalash, 7 yil kafolat.",specs:{Idish:"2L BPA-free",Motor:"2HP 1491W",Tezliklar:"O'zgaruvchan + Yuqori",Pichoqlar:"Toblangan po'lat",O'z-o'zini_tozalash:"30-60 soniya",BPAFree:"Ha",Og'irlik:"5.2 kg"}},
+{id:55,name:"Bosch Tassimo Kofe Mashinasi",category:"kitchen",brand:"Bosch",price:149,rating:4.3,stock:30,image:"https://placehold.co/600x600/111/ff6600?text=Tassimo",description:"T-DISC barkod texnologiyasi, 40+ ichimlik avtomatik tayyorlaydi.",specs:{Tizim:"T DISC barkod",Bosim:"3.3 bar",Tank:"1.4L",Isitish:"40 soniya",Ichimliklar:"40+",Quvvat:"1500W",Og'irlik:"2.1 kg"}},
+{id:56,name:"Dyson Purifier Hot+Cool",category:"climate",brand:"Dyson",price:799,rating:4.7,stock:6,image:"https://placehold.co/600x600/111/ff6600?text=Dyson+HP07",description:"HEPA H13+karbon filtr, LCD havo sifati ko'rsatkichi, isitgich va ventilyator.",specs:{Qamrash:"43 m²",Filtr:"HEPA H13+Carbon 360°",Havo_almashinuvi:"12x/soat",Isitgich:"PTC 1400W",Ventilyator:"10 tezlik",Smart:"Wi-Fi+Dyson Link",Shovqin:"43 dB"}},
+{id:57,name:"Daikin Inverter Split Konditsioner",category:"climate",brand:"Daikin",price:999,rating:4.8,stock:8,image:"https://placehold.co/600x600/111/ff6600?text=Daikin+AC",description:"R-32 freon, 21dB ultrahushyor, 5 yulduz energiya, 5 yil kafolat.",specs:{Sovutish:"3.5kW (12K BTU)",Isitish:"4.0kW issiqlik nasosi",Maydon:"35 m²",EER:"4.4",Freon:"R-32",Shovqin:"21 dB",Kafolat:"5 yil"}},
+{id:58,name:"Midea U-Shape Konditsioner",category:"climate",brand:"Midea",price:399,rating:4.4,stock:12,image:"https://placehold.co/600x600/111/ff6600?text=Midea+AC",description:"U-shakl derazani ochiq holda ishlaydi, 42 dB pichirlovchi ses.",specs:{Sovutish:"8000 BTU",Maydon:"20 m²",EER:"15.0 CEER",Shovqin:"42 dB",O_rnatish:"DIY deraza",Smart:"Wi-Fi ilova",Quvvat:"680W"}},
+{id:59,name:"Honeywell Ko'chma Konditsioner",category:"climate",brand:"Honeywell",price:499,rating:4.3,stock:10,image:"https://placehold.co/600x600/111/ff6600?text=Honeywell+AC",description:"10,000 BTU ko'chma konditsioner, sovutish, ventilyator va quritgich.",specs:{Sovutish:"10000 BTU",Maydon:"25 m²",Rejimlar:"Sovutish+Ventilyator+Quritish",Shovqin:"52 dB",Tank:"3.6L avtomatik",Pult:"Ha",Og'irlik:"28 kg"}},
+{id:60,name:"Honeywell HPA300 Havo Tozalagich",category:"climate",brand:"Honeywell",price:249,rating:4.5,stock:15,image:"https://placehold.co/600x600/111/ff6600?text=HPA300",description:"True HEPA 0.3 mikron zarrachalarning 99.97% ushlab qoladi.",specs:{Qamrash:"46 m²",Filtr:"True HEPA+Carbon",CADR:"300 barcha tur",Darajalar:"Turbo+Yuqori+O'rta+Past",Taymer:"2+4+8 soat",Ko_rsatkich:"Filtr ogohlantirish",O'lcham:"305×380×558mm"}},
+{id:61,name:"Xiaomi Smart Purifier 4 Pro",category:"climate",brand:"Xiaomi",price:199,rating:4.6,stock:20,image:"https://placehold.co/600x600/111/ff6600?text=Purifier+4+Pro",description:"H13 HEPA, 400 CADR, lazer PM2.5 sensor, Mi Home avtomatlashtirish.",specs:{Qamrash:"48 m²",Filtr:"H13 True HEPA",CADR:"400 m³/soat",Shovqin:"32-64 dB",Smart:"Wi-Fi+Mi Home+Alexa",Avto:"Lazer PM2.5 avto",Og'irlik:"5.7 kg"}},
+{id:62,name:"Sony Alpha 7 IV",category:"smartphones",brand:"Sony",price:2499,rating:4.9,stock:4,image:"https://placehold.co/600x600/111/ff6600?text=Sony+A7+IV",description:"33MP to'liq kadrli BSI, 4K60 10-bit, 759 nuqta fazaviy AF, IBIS.",specs:{Sensor:"33MP BSI To'liq kadr",AF:"759 nuqta Fazaviy",Video:"4K 60fps 10-bit",ISO:"100-51200",IBIS:"5-o'q 5.5 bosqich",Batareya:"800 surat CIPA",Og'irlik:"659g"}},
+{id:63,name:"Canon EOS R50",category:"smartphones",brand:"Canon",price:699,rating:4.6,stock:10,image:"https://placehold.co/600x600/111/ff6600?text=Canon+R50",description:"24.2MP, Dual Pixel CMOS AF II, kesishsiz 4K, vertikal video.",specs:{Sensor:"24.2MP APS-C",AF:"651 nuqta DPAF II",Video:"4K 30fps",ISO:"100-32000",Batareya:"210 surat",Smart:"Wi-Fi+Bluetooth",Og'irlik:"375g"}},
+{id:64,name:"Belkin 3-in-1 MagSafe",category:"smartphones",brand:"Belkin",price:99,rating:4.5,stock:35,image:"https://placehold.co/600x600/111/ff6600?text=Belkin+3in1",description:"15W MagSafe iPhone + tez Apple Watch + AirPods bir vaqtda.",specs:{iPhone:"15W MagSafe",Watch:"Tez zaryadlash",AirPods:"5W Qi",Jami:"3 qurilma",Kirish:"USB-C 18W",Mos:"iPhone 12+ / Barcha AW",O'lcham:"160×80×75mm"}},
+{id:65,name:'Samsung 55" Neo QLED 8K',category:"tvs",brand:"Samsung",price:2999,rating:4.9,stock:2,image:"https://placehold.co/600x600/111/ff6600?text=Neo+QLED+8K",description:"8K Neyron Kvant Protsessor, Neo QLED, 90W Dolby Atmos OTS+.",specs:{Panel:'55" Neo QLED 8K 120Hz',O_lcham:"7680×4320",Protsessor:"Neyron Kvant 8K",HDR:"HDR10+ Adaptiv",Smart:"Tizen 7.0",Portlar:"HDMI 2.1×4",Ses:"90W OTS+ Dolby Atmos"}}
+];
+window.PRODUCTS=PRODUCTS;
+const CATS_UZ={smartphones:"Smartfonlar",laptops:"Noutbuklar",tvs:"Televizorlar",appliances:"Maishiy texnika",kitchen:"Oshxona",climate:"Iqlim"};
+const RATES={USD:{s:'$',r:1},EUR:{s:'€',r:0.92},RUB:{s:'₽',r:91.5},KZT:{s:'₸',r:450},UZS:{s:"so'm",r:12500}};
+let cur=localStorage.getItem('uyuchun_cur')||'USD';
+document.getElementById('currencySelect').value=cur;
+function changeCurrency(c){cur=c;localStorage.setItem('uyuchun_cur',c);renderPage();}
+function fmt(p){const c=RATES[cur];return c.s+Math.round(p*c.r).toLocaleString();}
+let cart=JSON.parse(localStorage.getItem('uyuchun_cart')||'[]');
+function saveCart(){localStorage.setItem('uyuchun_cart',JSON.stringify(cart));}
+function cartCount(){return cart.reduce((s,x)=>s+x.qty,0);}
+function updateCartUI(){document.getElementById('cartCount').textContent=cartCount();}
+function addToCart(id,qty=1){
+  const p=PRODUCTS.find(x=>x.id===id);if(!p||p.stock===0)return;
+  const ex=cart.find(x=>x.id===id);
+  if(ex){ex.qty=Math.min(ex.qty+qty,p.stock);}else{cart.push({id,qty});}
+  saveCart();updateCartUI();
+  showToast("Savatga qo'shildi ✅",`${p.name} ×${qty}`);
+  const btn=document.getElementById('btnAdd');
+  if(btn){btn.innerHTML='<i class="fas fa-check"></i> Qo\'shildi';setTimeout(()=>{btn.innerHTML='<i class="fas fa-cart-plus"></i> Savatga qo\'shish';},2000);}
+}
+let selectedQty=1;
+function changeQty(d){
+  const p=PRODUCTS.find(x=>x.id===currentId);if(!p)return;
+  selectedQty=Math.max(1,Math.min(selectedQty+d,p.stock));
+  document.getElementById('qtyNum').textContent=selectedQty;
+}
+let currentId=null;
+function renderPage(){
+  const id=parseInt(new URLSearchParams(window.location.search).get('id'));
+  const p=PRODUCTS.find(x=>x.id===id);
+  if(!p){document.getElementById('productPage').innerHTML='<div style="text-align:center;padding:80px;color:#aaa;grid-column:1/-1"><i class="fas fa-exclamation-triangle" style="font-size:3rem;margin-bottom:20px;display:block"></i><h2>Mahsulot topilmadi</h2><p><a href="index.html" style="color:#ff6600">← Do\'konga qaytish</a></p></div>';return;}
+  currentId=id;
+  document.title=p.name+' - UyUchun';
+  document.getElementById('breadProduct').textContent=p.name;
+  updateCartUI();
+  const stars=[...Array(5)].map((_,i)=>i<Math.floor(p.rating)?'<i class="fas fa-star" style="color:#ffaa00"></i>':i-p.rating<0.5&&i-p.rating>-0.5?'<i class="fas fa-star-half-alt" style="color:#ffaa00"></i>':'<i class="far fa-star empty"></i>').join('');
+  const specs=Object.entries(p.specs).map(([k,v])=>`<div class="spec-row"><div class="spec-key">${k}</div><div class="spec-val">${v}</div></div>`).join('');
+  document.getElementById('productPage').innerHTML=`
+    <div class="gallery">
+      <div class="main-img"><img src="${p.image}" id="mainImg" alt="${p.name}"></div>
+      <div class="thumbs">
+        ${[p.image,p.image,p.image,p.image].map((img,i)=>`<div class="thumb${i===0?' active':''}" onclick="selectImg(this,'${img}')"><img src="${img}" alt="Ko'rinish ${i+1}"></div>`).join('')}
+      </div>
+    </div>
+    <div class="product-info">
+      <div class="prod-brand">${p.brand}</div>
+      <h1 class="prod-name">${p.name}</h1>
+      <div class="rating-row">
+        <div class="stars">${stars}</div>
+        <span class="rating-num">${p.rating}/5</span>
+        <span class="rating-count">(${Math.floor(Math.random()*500)+50} sharh)</span>
+      </div>
+      <div class="badges">
+        ${p.stock>0?`<span class="badge green"><i class="fas fa-check-circle"></i>${p.stock<5?'Faqat '+p.stock+' dona qoldi':'Mavjud — '+p.stock+' dona'}</span>`:`<span class="badge gray"><i class="fas fa-times-circle"></i>Tugagan</span>`}
+        <span class="badge orange"><i class="fas fa-truck"></i>Bepul yetkazish</span>
+        <span class="badge gray"><i class="fas fa-shield-alt"></i>2 yil kafolat</span>
+      </div>
+      <div class="price-section">
+        <span class="big-price" id="priceDisplay">${fmt(p.price)}</span>
+        <span class="original-price">${fmt(p.price*1.15)}</span>
+      </div>
+      <div class="desc-box">
+        <h3>Tavsif</h3>
+        <p>${p.description}</p>
+      </div>
+      <div class="qty-section">
+        <span class="qty-label">Miqdor:</span>
+        <div class="qty-ctrl">
+          <button onclick="changeQty(-1)">−</button>
+          <span id="qtyNum">1</span>
+          <button onclick="changeQty(1)">+</button>
+        </div>
+        <span style="color:var(--text2);font-size:0.85rem">${p.stock} dona mavjud</span>
+      </div>
+      <div class="action-btns">
+        <button class="btn-add" id="btnAdd" ${p.stock===0?'disabled':''} onclick="addToCart(${p.id},selectedQty)">
+          <i class="fas fa-cart-plus"></i> Savatga qo'shish
+        </button>
+        <button class="btn-buy" onclick="buyNow(${p.id})">
+          <i class="fas fa-bolt"></i> Hozir sotib ol
+        </button>
+      </div>
+      <div class="spec-table">
+        <h3><i class="fas fa-list" style="color:var(--primary);margin-right:8px"></i>Texnik xususiyatlar</h3>
+        ${specs}
+      </div>
+    </div>`;
+  const similar=PRODUCTS.filter(x=>x.category===p.category&&x.id!==p.id).slice(0,8);
+  document.getElementById('similarGrid').innerHTML=similar.map(s=>`<div class="product-card" onclick="location.href='product.html?id=${s.id}'">
+    <div class="img"><img src="${s.image}" alt="${s.name}" loading="lazy"></div>
+    <div class="info">
+      <div class="brand">${s.brand}</div>
+      <div class="name">${s.name}</div>
+      <div class="price">${fmt(s.price)}</div>
+    </div>
+  </div>`).join('');
+}
+function selectImg(el,src){
+  document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('mainImg').src=src;
+}
+function buyNow(id){addToCart(id,selectedQty);setTimeout(()=>location.href='cart.html',500);}
+function showToast(title,msg){
+  const t=document.getElementById('toast');
+  t.innerHTML=`<div class="toast-title">${title}</div><div class="toast-msg">${msg}</div>`;
+  t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3000);
+}
+renderPage();
+</script>
+</body>
+</html>
